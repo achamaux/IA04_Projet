@@ -10,7 +10,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-.classpath
+IA04_Royal/.classpath
 
 # External tool builders
 .externalToolBuilders/
