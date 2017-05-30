@@ -9,7 +9,11 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 100;
 	public static int NUM_INSECT = 500;
 	public static int NUM_FOOD_CELL = 500;
-	public static int NUM_CONTENDERS = 10;
+	public static int NUM_CONTENDERS = 15;
+	public static int MIN_VIE = 10;
+	public static int MAX_VIE = 20;
+	public static int MIN_ATTAQUE = 1;
+	public static int MAX_ATTAQUE = 5;	
 	public ObjectGrid2D yard =
 			new ObjectGrid2D(GRID_SIZE,GRID_SIZE);
 
@@ -27,11 +31,6 @@ public class Beings extends SimState {
 		for(int i = 0; i < NUM_FOOD_CELL; i++) {
 			addAgentNourriture();
 		}
-		
-		//addAgentNourriture(1, 10);
-		//addAgentNourriture(GRID_SIZE-2, 4);
-		//addAgentNourriture(4, 1);
-		//addAgentNourriture(10, GRID_SIZE-2);
 	}
 	
 	public void addAgentNourriture() {
@@ -68,10 +67,6 @@ public class Beings extends SimState {
 			}
 			addAgentInsecte(location.x, location.y);
 		}
-		//addAgentInsecte(GRID_SIZE-1, 10);
-		//addAgentInsecte(0, 4);
-		//addAgentInsecte(4, GRID_SIZE-1);
-		//addAgentInsecte(10, 0);
 	}
 	
 	public void addAgentInsecte(int x, int y) {

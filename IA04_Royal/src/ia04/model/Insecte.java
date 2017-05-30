@@ -88,6 +88,7 @@ public class Insecte extends MySteppable {
 	}
 
 	public static int LEVEL = 2;
+	
 	@Override
 	public void step(SimState state) {
 		Beings beings = (Beings) state;
