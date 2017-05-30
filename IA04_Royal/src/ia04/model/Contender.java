@@ -5,7 +5,7 @@ import sim.engine.SimState;
 public class Contender extends MySteppable{
 	
 	public int vie;
-	public int attaque;
+	public int attaque=1;
 	public int distancePerception=1;
 
 	public Contender(int x, int y,int vie, int attaque,int distancePerception) {
