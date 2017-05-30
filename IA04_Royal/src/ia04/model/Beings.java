@@ -9,6 +9,7 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 100;
 	public static int NUM_INSECT = 500;
 	public static int NUM_FOOD_CELL = 500;
+	public static int NUM_CONTENDERS = 10;
 	public ObjectGrid2D yard =
 			new ObjectGrid2D(GRID_SIZE,GRID_SIZE);
 
@@ -19,8 +20,7 @@ public class Beings extends SimState {
 	public void start() {
 		super.start();
 		yard.clear();
-		addAgentsInsecte();
-		addAgentsNourriture();
+		addAgentsContender();
 	}
 
 	private void addAgentsNourriture() {
@@ -55,6 +55,7 @@ public class Beings extends SimState {
 		Stoppable stoppable=schedule.scheduleRepeating(a);
 		a.stoppable=stoppable;
 	}
+	
 
 	private void addAgentsInsecte() {
 		for(int i = 0; i < NUM_INSECT; i++) {
@@ -76,6 +77,34 @@ public class Beings extends SimState {
 	public void addAgentInsecte(int x, int y) {
 		Int2D location = new Int2D(x,y);
 		Insecte a = new Insecte(location.x, location.y);
+		yard.set(location.x,location.y,a);
+		a.x = location.x;
+		a.y = location.y;
+		
+		Stoppable stoppable=schedule.scheduleRepeating(a);
+		a.stoppable=stoppable;
+	}
+	
+	private void addAgentsContender() {
+		for(int i = 0; i < NUM_CONTENDERS; i++) {
+			Int2D location = new Int2D(random.nextInt(yard.getWidth()),
+					random.nextInt(yard.getHeight()) );
+			Object ag = null;
+			while ((ag = yard.get(location.x,location.y)) != null) {
+				location = new Int2D(random.nextInt(yard.getWidth()),
+						random.nextInt(yard.getHeight()) );
+			}
+			addAgentContender(location.x, location.y);
+		}
+	}
+	
+	public void addAgentContender(int x, int y) {
+		int attaque = 2;
+		int vie = 10;
+		//TODO: set attaque et vie différemment
+		
+		Int2D location = new Int2D(x,y);
+		Contender a = new Contender(location.x, location.y, vie, attaque);
 		yard.set(location.x,location.y,a);
 		a.x = location.x;
 		a.y = location.y;

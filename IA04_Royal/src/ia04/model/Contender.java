@@ -6,13 +6,12 @@ public class Contender extends MySteppable{
 	
 	public int vie;
 	public int attaque=1;
-	public int distancePerception=1;
+	public int distancePerception=5;
 
-	public Contender(int x, int y,int vie, int attaque,int distancePerception) {
+	public Contender(int x, int y,int vie, int attaque) {
 		super(x, y);
 		this.vie = vie;
 		this.attaque = attaque;
-		this.distancePerception = distancePerception;
 	}
 
 	@Override

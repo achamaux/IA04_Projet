@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import ia04.model.Beings;
 import ia04.model.Insecte;
 import ia04.model.Nourriture;
+import ia04.model.Contender;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
@@ -44,8 +45,10 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setField(beings.yard );
 		yardPortrayal.setPortrayalForClass(Insecte.class, getInsectePortrayal());
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
+		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
 		display.reset();
-		display.setBackdrop(Color.yellow);
+		Color backgroundCol = new Color(13, 115, 13);
+		display.setBackdrop(backgroundCol);
 		display.repaint();
 	}
 	public void init(Controller c) {
@@ -92,10 +95,18 @@ public class BeingsWithUI extends GUIState {
 		return r;
 	}
 	
+	private OvalPortrayal2D getContenderPortrayal() {
+		OvalPortrayal2D r = new OvalPortrayal2D(1.4);
+		r.paint = Color.RED;
+		r.filled = true;
+		return r;
+	}
+	
 	public Object getSimulationInspectedObject() { return state; }
 	public Inspector getInspector() {
 		Inspector i = super.getInspector();
 		i.setVolatile(true);
 		return i;
 	}
+	
 }
