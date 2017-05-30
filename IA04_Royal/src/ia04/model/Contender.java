@@ -3,17 +3,20 @@ package ia04.model;
 import sim.engine.SimState;
 
 public class Contender extends MySteppable{
+	
+	public int vie;
+	public int attaque;
+	public int distancePerception=1;
 
-	public Contender(int x, int y) {
+	public Contender(int x, int y,int vie, int attaque,int distancePerception) {
 		super(x, y);
-		x = 3;
-		//ligne écrite par raph à 18:58
-		// TODO Auto-generated constructor stub
+		this.vie = vie;
+		this.attaque = attaque;
+		this.distancePerception = distancePerception;
 	}
 
 	@Override
 	public void step(SimState arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
