@@ -1,0 +1,18 @@
+package ia04.model;
+
+import sim.engine.SimState;
+
+public class Contender extends MySteppable{
+
+	public Contender(int x, int y) {
+		super(x, y);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void step(SimState arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
