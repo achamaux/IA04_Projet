@@ -9,7 +9,7 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 100;
 	public static int NUM_INSECT = 500;
 	public static int NUM_FOOD_CELL = 500;
-	public static int NUM_CONTENDERS = 15;
+	public static int NUM_CONTENDERS = 50;
 	public static int MIN_VIE = 10;
 	public static int MAX_VIE = 20;
 	public static int MIN_ATTAQUE = 1;

@@ -239,7 +239,7 @@ public class Insecte extends MySteppable {
 		}
 		//------------------------------FIN CALCUL------------------------------
 		
-		// Je me déplace sur la position calcule si elle est vide
+		// Je me deplace sur la position calculee si elle est vide
 		if (beings.yard.get(x2,y2) == null) {
 			beings.yard.set(x, y, null);
 			beings.yard.set(x2, y2, this);
