@@ -96,8 +96,28 @@ public class BeingsWithUI extends GUIState {
 	}
 	
 	private OvalPortrayal2D getContenderPortrayal() {
-		OvalPortrayal2D r = new OvalPortrayal2D(1.4);
+		/*OvalPortrayal2D r = new OvalPortrayal2D(1.4);
 		r.paint = Color.RED;
+		r.filled = true;
+		return r;*/
+		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
+
+			private static final long serialVersionUID = -9018920390744116027L;
+
+			@Override
+			public void draw(Object o, Graphics2D g, DrawInfo2D info){
+				Contender i = (Contender)o;
+				if(i.vie>=6)
+					this.paint=Color.GREEN;
+				else if (i.vie>=3)
+					this.paint=Color.ORANGE;
+				else
+					this.paint=Color.RED;
+				super.draw(o,g,info);
+			}
+		};
+		
+		r.paint = Color.YELLOW;
 		r.filled = true;
 		return r;
 	}
