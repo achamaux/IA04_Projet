@@ -94,12 +94,9 @@ public class Beings extends SimState {
 	}
 	
 	public void addAgentContender(int x, int y) {
-		int attaque = 2;
-		int vie = 10;
-		//TODO: set attaque et vie différemment
 		
 		Int2D location = new Int2D(x,y);
-		Contender a = new Contender(location.x, location.y, vie, attaque);
+		Contender a = new Contender(location.x, location.y, Contender.MAX_ATTAQUE, Contender.MAX_VIE, Contender.MAX_ENERGIE);
 		yard.set(location.x,location.y,a);
 		a.x = location.x;
 		a.y = location.y;
