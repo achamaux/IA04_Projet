@@ -9,11 +9,7 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 100;
 	public static int NUM_INSECT = 500;
 	public static int NUM_FOOD_CELL = 500;
-	public static int NUM_CONTENDERS = 50;
-	public static int MIN_VIE = 10;
-	public static int MAX_VIE = 20;
-	public static int MIN_ATTAQUE = 1;
-	public static int MAX_ATTAQUE = 5;	
+	public static int NUM_CONTENDERS = 50;	
 	public ObjectGrid2D yard =
 			new ObjectGrid2D(GRID_SIZE,GRID_SIZE);
 
@@ -96,7 +92,8 @@ public class Beings extends SimState {
 	public void addAgentContender(int x, int y) {
 		
 		Int2D location = new Int2D(x,y);
-		Contender a = new Contender(location.x, location.y, Contender.MAX_ATTAQUE, Contender.MAX_VIE, Contender.MAX_ENERGIE);
+		System.out.println();
+		Contender a = new Contender(location.x, location.y);
 		yard.set(location.x,location.y,a);
 		a.x = location.x;
 		a.y = location.y;
