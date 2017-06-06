@@ -3,6 +3,7 @@ package ia04.model;
 import sim.engine.SimState;
 import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
+import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 
 public class Beings extends SimState {
@@ -57,6 +58,35 @@ public class Beings extends SimState {
 		Stoppable stoppable=schedule.scheduleRepeating(a);
 		a.stoppable=stoppable;
 	}
+	
+	private void addAgentsArme(int n) {
+		for(int i = 0; i < n; i++) {
+			addAgentArme();
+		}
+	}
+	
+	public void addAgentArme() {
+		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
+				random.nextInt(yard.getHeight()) );
+		Object ag = null;
+		while ((ag = yard.get(location.x,location.y)) != null) {
+			location = new Int2D(random.nextInt(yard.getWidth()),
+					random.nextInt(yard.getHeight()) );
+		}
+		Arme a = new Arme(location.x,location.y);
+		addAgentArme(location.x, location.y, a);
+	}
+
+	public void addAgentArme(int x, int y, Arme a) {
+		Int2D location = new Int2D(x,y);
+		yard.set(location.x,location.y, a);
+		a.x = location.x;
+		a.y = location.y;
+
+		Stoppable stoppable=schedule.scheduleRepeating(a);
+		a.stoppable=stoppable;
+	}
+	
 	
 	private void addAgentsContender() {
 		for(int i = 0; i < NUM_CONTENDERS; i++) {

@@ -29,6 +29,7 @@ public class Contender extends MySteppable {
 	public int energie = MAX_ENERGIE;
 	public int distancePerception = DIST_PERCEPTION;
 	public int nourriture = 0;
+	public Arme arme;
 
 	private Beings beings;
 
@@ -44,6 +45,9 @@ public class Contender extends MySteppable {
 		Random rand = new Random();
 		int attaque = rand.nextInt(MAX_ATTAQUE - MIN_ATTAQUE + 1) + MIN_ATTAQUE;
 		int vie = rand.nextInt(MAX_VIE - MIN_VIE + 1) + MIN_VIE;
+		arme = null;
+		Arme a = new Arme(x, y);
+		takeWeapon(a);
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
@@ -255,4 +259,18 @@ public class Contender extends MySteppable {
 		energie--;
 	}
 
+	public void takeWeapon(Arme weapon){
+		//Si weapon est meilleur que l'arme actuelle OU qu'on n'a pas d'arme actuelle
+		if((arme != null && arme.getpower() < weapon.getpower()) || (arme == null)){
+			//TODO Un fois que la modif en SparseGrid2D aura été faite
+			//beings.yard.remove(weapon);
+			if(arme!=null) //on repose l'arme qu'on avait
+			{
+				beings.addAgentArme(x, y, arme);
+			}
+			arme = weapon;
+		}
+
+
+	}
 }
