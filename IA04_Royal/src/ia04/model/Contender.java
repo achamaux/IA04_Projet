@@ -2,17 +2,22 @@ package ia04.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import sim.engine.SimState;
 import sim.util.Bag;
+import sim.field.grid.ObjectGrid2D;
+import sim.util.Int2D;
 
 public class Contender extends MySteppable {
 	
 	public static int DIST_PERCEPTION = 5;
 	public static int MAX_DEP = 4;
 	public static int MAX_ENERGIE = 20;
-	public static int MAX_VIE = 10;
-	public static int MAX_ATTAQUE = 2;
+	public static int MIN_VIE = 10;
+	public static int MAX_VIE = 20;
+	public static int MIN_ATTAQUE = 1;
+	public static int MAX_ATTAQUE = 5;
 	public static int ENERGIE_PAR_DEP = 1;
 	public static int ENERGIE_PAR_ATT = 2;
 	public static int NOURRITURE_MAX = 4;
@@ -27,12 +32,24 @@ public class Contender extends MySteppable {
 
 
 	private Beings beings;
+	
+	
 
 	public Contender(int x, int y, int attaque, int vie, int energie) {
 		super(x, y);
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = energie;
+	}
+	
+	public Contender(int x, int y) {
+		super(x, y);
+		Random rand = new Random();
+		int attaque = rand.nextInt(MAX_ATTAQUE - MIN_ATTAQUE + 1) + MIN_ATTAQUE;
+		int vie = rand.nextInt(MAX_VIE - MIN_VIE + 1) + MIN_VIE;
+		this.vie = vie;
+		this.attaque = attaque;
+		this.energie = MAX_ENERGIE;
 	}
 
 	@Override
