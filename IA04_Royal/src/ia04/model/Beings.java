@@ -7,7 +7,7 @@ import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 
 public class Beings extends SimState {
-	public static int GRID_SIZE = 100;
+	public static int GRID_SIZE = 75;
 
 	public static int NUM_FOOD_CELL = 80;
 	public static int NUM_CONTENDERS = 50;

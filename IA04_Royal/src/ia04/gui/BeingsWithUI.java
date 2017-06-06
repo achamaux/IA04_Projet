@@ -23,10 +23,11 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
+import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 
 public class BeingsWithUI extends GUIState {
-	public static int FRAME_SIZE = 700;
+	public static int FRAME_SIZE = 900;
 	public Display2D display;
 	public JFrame displayFrame;
 	ObjectGridPortrayal2D yardPortrayal =
@@ -88,18 +89,13 @@ public class BeingsWithUI extends GUIState {
 		return r;
 	}
 	
-	private OvalPortrayal2D getNourriturePortrayal() {
-		OvalPortrayal2D r = new OvalPortrayal2D(1.4);
-		r.paint = Color.BLUE;
-		r.filled = true;
+	private ImagePortrayal2D getNourriturePortrayal() {
+		ImageIcon icon = new ImageIcon("chemin");
+		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}
 	
 	private OvalPortrayal2D getContenderPortrayal() {
-		/*OvalPortrayal2D r = new OvalPortrayal2D(1.4);
-		r.paint = Color.RED;
-		r.filled = true;
-		return r;*/
 		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
 
 			private static final long serialVersionUID = -9018920390744116027L;
