@@ -67,9 +67,15 @@ public class Contender extends MySteppable {
 				else 
 				{
 					Nourriture food = getClosestFood();
-					if(food != null && food.quantite > 0){
+					if(food != null){
+						if(isAtRange(food, 1) && food.quantite > 0){
 						takeFood(food);
 						roundDone = true;
+						}
+						else
+						{
+							MoveTowards(food.x, food.y, MAX_DEP);
+						}
 					}
 				}
 			}
@@ -78,7 +84,7 @@ public class Contender extends MySteppable {
 				/****************Traitement enemi*****************/
 				Contender closestEnemy = getClosestEnemy();
 				if (closestEnemy != null) {
-					if (!isAtRange(closestEnemy)) {
+					if (!isAtRange(closestEnemy, 1)) {
 						MoveTowards(closestEnemy.x, closestEnemy.y, 1);
 						//si on emp�che le d�placement vers l'endroit o� on est, certains contestants ne bougent pas,
 						//je sais pas pourquoi
@@ -166,13 +172,14 @@ public class Contender extends MySteppable {
 			energie = energie - dist * ENERGIE_PAR_DEP;
 		else
 			vie--;
+		
 		System.out.println("Now at " + x + "," + y);
 	}
 
-	private boolean isAtRange(Contender cont) {
+	private boolean isAtRange(MySteppable cont, int range) {
 		int dx = cont.x - x;
 		int dy = cont.y - y;
-		return (Math.abs(dx) <= 1 && Math.abs(dy) <= 1);
+		return (Math.abs(dx) <= range && Math.abs(dy) <= range);
 	}
 
 	public void attack(Contender cont) {
