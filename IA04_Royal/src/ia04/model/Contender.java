@@ -10,15 +10,20 @@ public class Contender extends MySteppable {
 	
 	public static int DIST_PERCEPTION = 5;
 	public static int MAX_DEP = 4;
-	public static int MAX_ENERGIE = 10;
+	public static int MAX_ENERGIE = 20;
 	public static int MAX_VIE = 10;
 	public static int MAX_ATTAQUE = 2;
 	public static int ENERGIE_PAR_DEP = 1;
+	public static int ENERGIE_PAR_ATT = 2;
+	public static int NOURRITURE_MAX = 4;
+	public static int ENERGIE_PAR_BOUFFE = 4;
+	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION;
 	
 	public int vie;
 	public int attaque;
 	public int energie = MAX_ENERGIE;
 	public int distancePerception = DIST_PERCEPTION;
+	public int nourriture = 0;
 
 
 	private Beings beings;
@@ -37,6 +42,13 @@ public class Contender extends MySteppable {
 			meurt(beings);
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
+			/****************Traitement bouffe*****************/
+			if(energie < BOUFFE_CRITIQUE){
+				
+			}
+			
+			
+			/****************Traitement enemi*****************/
 			Contender closestEnemy = getClosestEnemy();
 			// TODO: Va vers lui si dist>1, castagne sinon (tape, l'autre
 			// devrait nous taper aussi normalement)
@@ -54,7 +66,7 @@ public class Contender extends MySteppable {
 				}
 			} else {
 				// pas d'ennemis trouv�, marche vers le centre
-				MoveTowards(beings.GRID_SIZE / 2, beings.GRID_SIZE / 2, 1);
+				MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
 			}
 		}
 	}
@@ -124,6 +136,11 @@ public class Contender extends MySteppable {
 				}
 			}
 		}
+		
+		if (energie > 0)
+			energie = energie - dist*ENERGIE_PAR_DEP;
+		else
+			vie --;
 		System.out.println("Now at " + x + "," + y);
 	}
 
@@ -135,6 +152,7 @@ public class Contender extends MySteppable {
 
 	public void attack(Contender cont) {
 		cont.vie -= attaque;
+		energie -= ENERGIE_PAR_ATT;
 	}
 	
 	//se déplace dans la direction opposée à celle de l'enemi
@@ -145,16 +163,65 @@ public class Contender extends MySteppable {
 		dirx = (dx > 0)? x - MAX_DEP : x + MAX_DEP;
 		if (dirx > Beings.GRID_SIZE)
 			dirx = Beings.GRID_SIZE - 1;
+		if (dirx < 0)
+			dirx = 0;
 		diry = (dy > 0)? y - MAX_DEP : y + MAX_DEP;
 		if (diry > Beings.GRID_SIZE)
 			diry = Beings.GRID_SIZE - 1;
-		
-		if (energie > 0)
-			energie = energie - MAX_DEP*ENERGIE_PAR_DEP;
-		else
-			vie --;
+		if(diry > 0)
+			diry = 0;
+
 		System.out.println("Now escaping from enemy at " + cont.x + " ; " + cont.y);
 		MoveTowards(dirx, diry, MAX_DEP);
-		
 	}
+	
+	public void eat(){
+		while(energie < MAX_ENERGIE - ENERGIE_PAR_BOUFFE && nourriture > 0)
+		{
+			nourriture --;
+			energie += ENERGIE_PAR_BOUFFE;
+		}
+	}
+	
+	
+	// trouve l'enn//emi le plus proche, retourne null si aucun n'est visible
+		public Nourriture getClosestFood() {
+			// teste toutes les distances pour trouver le plus proche
+			// (v�rifier si getNeighbors classe pas d�j� par proximit�)
+			for (int i = 1; i <= distancePerception; i++) {
+				Nourriture closestFood = findFoodAtRange(i);
+				if (closestFood != null) {
+					System.out.println("ClosestEnemy found, at "+ closestFood.x + " ; " + closestFood.y);
+					return closestFood;
+				}
+			}
+			System.out.println("No contender found within range " + distancePerception);
+			return null;
+		}
+	
+		
+	public Nourriture findFoodAtRange(int range){
+		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
+		// retourne le premier contender � une distance range
+		for (Object o : b) {
+			if (o instanceof Nourriture) {
+				Nourriture food = (Nourriture) o;
+
+				System.out.println("Food found in range " + range);
+				System.out.println("Its location : " + food.x + "," + food.y);
+				return food;
+
+			}
+		}
+		return null;
+	}
+	
+	public void takeFood(Nourriture food){
+		while(food.quantite >0 && nourriture < NOURRITURE_MAX){
+			nourriture ++;
+			food.quantite--;
+		}
+		energie --;
+	}
+	
 }

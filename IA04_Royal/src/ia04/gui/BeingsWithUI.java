@@ -90,7 +90,7 @@ public class BeingsWithUI extends GUIState {
 	
 	private OvalPortrayal2D getNourriturePortrayal() {
 		OvalPortrayal2D r = new OvalPortrayal2D(1.4);
-		r.paint = Color.GREEN;
+		r.paint = Color.BLUE;
 		r.filled = true;
 		return r;
 	}
