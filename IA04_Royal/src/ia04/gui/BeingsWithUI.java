@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import ia04.model.Arme;
 import ia04.model.Beings;
 import ia04.model.Insecte;
 import ia04.model.Nourriture;
@@ -46,6 +47,7 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setField(beings.yard );
 		yardPortrayal.setPortrayalForClass(Insecte.class, getInsectePortrayal());
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
+		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
 		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
 		display.reset();
 		Color backgroundCol = new Color(13, 115, 13);
@@ -91,6 +93,12 @@ public class BeingsWithUI extends GUIState {
 	
 	private ImagePortrayal2D getNourriturePortrayal() {
 		ImageIcon icon = new ImageIcon("res/icon/hamburger.png");
+		ImagePortrayal2D r = new ImagePortrayal2D(icon);
+		return r;
+	}
+	
+	private ImagePortrayal2D getArmePortrayal() {
+		ImageIcon icon = new ImageIcon("res/icon/glaive.png");
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}

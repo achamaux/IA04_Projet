@@ -58,7 +58,6 @@ public class Contender extends MySteppable {
 		beings = (Beings) state;
 		boolean roundDone = false;
 		if (vie <= 0){
-			System.out.println("---------------------------------------------------------------------------------");
 			meurt(beings);
 		}
 		else {
@@ -74,7 +73,7 @@ public class Contender extends MySteppable {
 				{
 					Nourriture food = getClosestFood();
 					if(food != null){
-						if(isAtRange(food, 1) && food.quantite > 0){
+						if((isAtRange(food,0) || isAtRange(food, 1)) && food.quantite > 0){
 						takeFood(food);
 						roundDone = true;
 						}
@@ -222,18 +221,18 @@ public class Contender extends MySteppable {
 		}
 	}
 
-	// trouve l'enn//emi le plus proche, retourne null si aucun n'est visible
+	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
 	public Nourriture getClosestFood() {
 		// teste toutes les distances pour trouver le plus proche
 		// (v�rifier si getNeighbors classe pas d�j� par proximit�)
 		for (int i = 1; i <= distancePerception; i++) {
 			Nourriture closestFood = findFoodAtRange(i);
 			if (closestFood != null) {
-				System.out.println("ClosestEnemy found, at " + closestFood.x + " ; " + closestFood.y);
+				System.out.println("ClosestFood found, at " + closestFood.x + " ; " + closestFood.y);
 				return closestFood;
 			}
 		}
-		System.out.println("No contender found within range " + distancePerception);
+		System.out.println("No food found within range " + distancePerception);
 		return null;
 	}
 

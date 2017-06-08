@@ -9,15 +9,15 @@ import sim.engine.Stoppable;
 public class Arme extends MySteppable { 
 
 	
-	static public int MAX_PUISSANCE=1;
-	static public int MIN_PUISSANCE=5;
+	static public int MAX_PUISSANCE=5;
+	static public int MIN_PUISSANCE=1;
 	
 	public int puissance;
 	
 	public Arme(int x, int y) {
 		super(x,y);
 		Random rand = new Random();
-		//puissance = rand.nextInt(MAX_PUISSANCE - MIN_PUISSANCE + 1) + MIN_PUISSANCE;
+		puissance = rand.nextInt(MAX_PUISSANCE - MIN_PUISSANCE + 1) + MIN_PUISSANCE;
 	}
 
 
