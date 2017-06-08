@@ -90,7 +90,7 @@ public class BeingsWithUI extends GUIState {
 	}
 	
 	private ImagePortrayal2D getNourriturePortrayal() {
-		ImageIcon icon = new ImageIcon("/Icon/hamburger.png");
+		ImageIcon icon = new ImageIcon("res/icon/hamburger.png");
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}
