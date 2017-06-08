@@ -14,7 +14,7 @@ public abstract class MySteppable implements Steppable {
 	public abstract void step(SimState arg0);
 	
 	protected void meurt(Beings beings) {
-		beings.yard.set(x, y, null);
+		beings.yard.removeObjectsAtLocation(x, y);
 		stoppable.stop();
 	}
 

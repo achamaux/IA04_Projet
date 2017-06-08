@@ -30,8 +30,8 @@ public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
 	public Display2D display;
 	public JFrame displayFrame;
-	ObjectGridPortrayal2D yardPortrayal =
-			new ObjectGridPortrayal2D();
+	SparseGridPortrayal2D yardPortrayal =
+			new SparseGridPortrayal2D();
 	public BeingsWithUI(SimState state) {
 		super(state);
 	}
@@ -54,7 +54,7 @@ public class BeingsWithUI extends GUIState {
 	}
 	public void init(Controller c) {
 		super.init(c);
-		display = new Display2D(FRAME_SIZE,FRAME_SIZE,this);
+		display = new Display2D(2*FRAME_SIZE,FRAME_SIZE,this);
 		display.setClipping(false);
 		displayFrame = display.createFrame();
 		displayFrame.setTitle("Beings");
@@ -90,7 +90,7 @@ public class BeingsWithUI extends GUIState {
 	}
 	
 	private ImagePortrayal2D getNourriturePortrayal() {
-		ImageIcon icon = new ImageIcon("chemin");
+		ImageIcon icon = new ImageIcon("/Icon/hamburger.png");
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}

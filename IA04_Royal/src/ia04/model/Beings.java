@@ -17,8 +17,8 @@ public class Beings extends SimState {
 	public static int MAX_ATTAQUE = 5;	
 	public static int NUM_INSECT = 500;
 
-	public ObjectGrid2D yard =
-			new ObjectGrid2D(GRID_SIZE,GRID_SIZE);
+	public SparseGrid2D yard =
+			new SparseGrid2D(2*GRID_SIZE,GRID_SIZE);
 
 	public Beings(long seed) {
 		super(seed);
@@ -41,7 +41,7 @@ public class Beings extends SimState {
 		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
 				random.nextInt(yard.getHeight()) );
 		Object ag = null;
-		while ((ag = yard.get(location.x,location.y)) != null) {
+		while ((ag = yard.getObjectsAtLocation(location.x, location.y)) != null) {
 			location = new Int2D(random.nextInt(yard.getWidth()),
 					random.nextInt(yard.getHeight()) );
 		}
@@ -51,7 +51,7 @@ public class Beings extends SimState {
 	public void addAgentNourriture(int x, int y) {
 		Int2D location = new Int2D(x,y);
 		Nourriture a = new Nourriture(location.x,location.y);
-		yard.set(location.x,location.y,a);
+		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;
 		
@@ -69,7 +69,7 @@ public class Beings extends SimState {
 		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
 				random.nextInt(yard.getHeight()) );
 		Object ag = null;
-		while ((ag = yard.get(location.x,location.y)) != null) {
+		while ((ag = yard.getObjectsAtLocation(location.x, location.y)) != null) {
 			location = new Int2D(random.nextInt(yard.getWidth()),
 					random.nextInt(yard.getHeight()) );
 		}
@@ -79,7 +79,7 @@ public class Beings extends SimState {
 
 	public void addAgentArme(int x, int y, Arme a) {
 		Int2D location = new Int2D(x,y);
-		yard.set(location.x,location.y, a);
+		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;
 
@@ -93,7 +93,7 @@ public class Beings extends SimState {
 			Int2D location = new Int2D(random.nextInt(yard.getWidth()),
 					random.nextInt(yard.getHeight()) );
 			Object ag = null;
-			while ((ag = yard.get(location.x,location.y)) != null) {
+			while ((ag = yard.getObjectsAtLocation(location.x, location.y)) != null) {
 				location = new Int2D(random.nextInt(yard.getWidth()),
 						random.nextInt(yard.getHeight()) );
 			}
@@ -106,7 +106,7 @@ public class Beings extends SimState {
 		Int2D location = new Int2D(x,y);
 		System.out.println();
 		Contender a = new Contender(location.x, location.y);
-		yard.set(location.x,location.y,a);
+		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;
 		
@@ -116,6 +116,6 @@ public class Beings extends SimState {
 
 	public boolean free(int x, int y) {
 		if(x<0 || x>GRID_SIZE || y<0 || y>GRID_SIZE) return false;
-		return yard.get(x, y)==null;
+		return yard.getObjectsAtLocation(x, y)==null;
 	}
 }

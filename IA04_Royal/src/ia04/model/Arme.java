@@ -17,7 +17,7 @@ public class Arme extends MySteppable {
 	public Arme(int x, int y) {
 		super(x,y);
 		Random rand = new Random();
-		puissance = rand.nextInt(MAX_PUISSANCE - MIN_PUISSANCE + 1) + MIN_PUISSANCE;
+		//puissance = rand.nextInt(MAX_PUISSANCE - MIN_PUISSANCE + 1) + MIN_PUISSANCE;
 	}
 
 

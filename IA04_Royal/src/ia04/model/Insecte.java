@@ -99,7 +99,7 @@ public class Insecte extends MySteppable {
 	
 
 	public void move(Beings beings) {
-		Object currentCase=beings.yard.get(x,y);
+		//Object currentCase=beings.yard.get(x,y);
 		
 		// Si je vais mourir, je mange une charge
 		if(energieActuelle<=2 && chargeActuelle>0){
@@ -147,7 +147,7 @@ public class Insecte extends MySteppable {
 
 		// Calcul du déplacement le plus court tout en essayant de contourner les autres insectes
 		//------------------------------DEBUT CALCUL------------------------------
-		int x2=0,y2=0;
+		/*int x2=0,y2=0;
 		if (n != null) {
 			if (x < n.x) {
 				if (n.x - x < x+beings.yard.getWidth()-n.x)
@@ -236,11 +236,11 @@ public class Insecte extends MySteppable {
 
 				x2 = beings.yard.stx(x+ox);
 			}
-		}
+		}*/
 		//------------------------------FIN CALCUL------------------------------
 		
 		// Je me deplace sur la position calculee si elle est vide
-		if (beings.yard.get(x2,y2) == null) {
+		/*if (beings.yard.get(x2,y2) == null) {
 			beings.yard.set(x, y, null);
 			beings.yard.set(x2, y2, this);
 			x=x2;
@@ -250,6 +250,6 @@ public class Insecte extends MySteppable {
 			double d=(x2-x!=0 && y2-y!=0)? 1.41 : 1;
 			//d*=4;
 			energieActuelle-=d/distanceDeplacement;
-		}
+		}*/
 	}
 }

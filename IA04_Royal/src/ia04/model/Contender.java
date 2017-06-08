@@ -57,8 +57,10 @@ public class Contender extends MySteppable {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
-		if (vie <= 0)
+		if (vie <= 0){
+			System.out.println("---------------------------------------------------------------------------------");
 			meurt(beings);
+		}
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
 			/****************Traitement bouffe*****************/
@@ -123,6 +125,7 @@ public class Contender extends MySteppable {
 	}
 
 	// trouve un ennemi � une distance range
+	@SuppressWarnings("deprecation")
 	public Contender findEnemyAtRange(int range) {
 		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
 		// retourne le premier contender � une distance range
@@ -151,23 +154,23 @@ public class Contender extends MySteppable {
 			dy = y2 - y;
 			if (Math.abs(dx) > Math.abs(dy)) {
 				if (dx > 0) {
-					beings.yard.set(x, y, null);
+					beings.yard.setObjectLocation(null, x, y);
 					x++;
-					beings.yard.set(x, y, this);
+					beings.yard.setObjectLocation(this, x, y);
 				} else if (dx < 0) {
-					beings.yard.set(x, y, null);
+					beings.yard.setObjectLocation(null, x, y);
 					x--;
-					beings.yard.set(x, y, this);
+					beings.yard.setObjectLocation(this, x, y);
 				}
 			} else {
 				if (dy > 0) {
-					beings.yard.set(x, y, null);
+					beings.yard.setObjectLocation(null, x, y);
 					y++;
-					beings.yard.set(x, y, this);
+					beings.yard.setObjectLocation(this, x, y);
 				} else if (dy < 0) {
-					beings.yard.set(x, y, null);
+					beings.yard.setObjectLocation(null, x, y);
 					y--;
-					beings.yard.set(x, y, this);
+					beings.yard.setObjectLocation(this, x, y);
 				}
 			}
 		}
@@ -234,6 +237,7 @@ public class Contender extends MySteppable {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public Nourriture findFoodAtRange(int range) {
 		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
 		// retourne le premier contender � une distance range
