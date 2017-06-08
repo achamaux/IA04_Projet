@@ -3,11 +3,11 @@ package ia04.model;
 import java.util.Random;
 
 import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.engine.Stoppable;
 
 public class Arme extends MySteppable { 
 
+	
+	private static final long serialVersionUID = 7180337908965110967L;
 	
 	static public int MAX_PUISSANCE=5;
 	static public int MIN_PUISSANCE=1;

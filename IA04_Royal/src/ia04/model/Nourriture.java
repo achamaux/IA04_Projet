@@ -1,11 +1,11 @@
 package ia04.model;
 
 import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.engine.Stoppable;
 
 public class Nourriture extends MySteppable { 
 
+	
+	private static final long serialVersionUID = -3233964416056133588L;
 	
 	static public int MAX_QUANTITE=5;
 	public int quantite=MAX_QUANTITE;

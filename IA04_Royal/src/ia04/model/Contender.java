@@ -1,16 +1,14 @@
 package ia04.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import sim.engine.SimState;
 import sim.util.Bag;
-import sim.field.grid.ObjectGrid2D;
-import sim.util.Int2D;
 
 public class Contender extends MySteppable {
 
+	private static final long serialVersionUID = 6893667159868881758L;
+	
 	public static int DIST_PERCEPTION = 5;
 	public static int MAX_DEP = 4;
 	public static int MAX_ENERGIE = 20;
@@ -257,7 +255,7 @@ public class Contender extends MySteppable {
 		while (food.quantite > 0 && nourriture < NOURRITURE_MAX) {
 			nourriture++;
 			food.quantite--;
-			System.out.println("Food taken ! Food left :" + nourriture + " ; enery = " + energie);
+			System.out.println("Food taken ! Food left :" + nourriture + " ; energy = " + energie);
 		}
 		energie--;
 	}

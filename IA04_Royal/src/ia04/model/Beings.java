@@ -2,13 +2,14 @@ package ia04.model;
 
 import sim.engine.SimState;
 import sim.engine.Stoppable;
-import sim.field.grid.ObjectGrid2D;
 import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 
 public class Beings extends SimState {
-	public static int GRID_SIZE = 75;
 
+	private static final long serialVersionUID = 4736324642205240207L;
+
+	public static int GRID_SIZE = 75;
 	public static int NUM_FOOD_CELL = 80;
 	public static int NUM_CONTENDERS = 50;
 	public static int NUM_ARME = 20;

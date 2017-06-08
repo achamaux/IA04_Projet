@@ -6,6 +6,8 @@ import sim.engine.Stoppable;
 
 public abstract class MySteppable implements Steppable {
 
+	private static final long serialVersionUID = -8776806986381983043L;
+	
 	public int x;
 	public int y;
 	public Stoppable stoppable;
