@@ -60,6 +60,7 @@ public class Contender extends MySteppable {
 		}
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
+			System.out.println("Currently at (" + x + "," + y + ")");
 			/****************Traitement bouffe*****************/
 			if(energie < BOUFFE_CRITIQUE){
 				System.out.println("Energy running low");
@@ -204,7 +205,7 @@ public class Contender extends MySteppable {
 		diry = (dy > 0) ? y - MAX_DEP : y + MAX_DEP;
 		if (diry > Beings.GRID_SIZE)
 			diry = Beings.GRID_SIZE - 1;
-		if (diry > 0)
+		if (diry < 0)
 			diry = 0;
 
 		System.out.println("Now escaping from enemy at " + cont.x + " ; " + cont.y);
