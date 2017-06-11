@@ -12,6 +12,7 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 75;
 	public static int NUM_FOOD_CELL = 80;
 	public static int NUM_CONTENDERS = 50;
+	public static int NUM_HEAL = 50;
 	public static int NUM_ARME = 20;
 	public static int MIN_VIE = 10;
 	public static int MAX_VIE = 20;
@@ -32,6 +33,39 @@ public class Beings extends SimState {
 		addAgentsContender();
 		addAgentsNourriture();
 		addAgentsArme();
+		addAgentsHeal();
+	}
+
+	private void addAgentsHeal() {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < NUM_HEAL; i++)
+		{
+			addAgentHeal();
+		}
+	}
+
+	private void addAgentHeal() {
+		// TODO Auto-generated method stub
+		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
+				random.nextInt(yard.getHeight()) );
+		Object ag = null;
+		while ((ag = yard.getObjectsAtLocation(location.x, location.y)) != null) {
+			location = new Int2D(random.nextInt(yard.getWidth()),
+					random.nextInt(yard.getHeight()) );
+		}
+		addAgentHeal(location.x, location.y);
+	}
+
+	private void addAgentHeal(int x, int y) {
+		// TODO Auto-generated method stub
+		Int2D location = new Int2D(x,y);
+		Soin a = new Soin(location.x,location.y);
+		yard.setObjectLocation(a, location.x, location.y);
+		a.x = location.x;
+		a.y = location.y;
+		
+		Stoppable stoppable=schedule.scheduleRepeating(a);
+		a.stoppable=stoppable;
 	}
 
 	private void addAgentsNourriture() {

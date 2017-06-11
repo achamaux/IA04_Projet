@@ -15,6 +15,7 @@ import ia04.model.Arme;
 import ia04.model.Beings;
 import ia04.model.Insecte;
 import ia04.model.Nourriture;
+import ia04.model.Soin;
 import ia04.model.Contender;
 import sim.display.Controller;
 import sim.display.Display2D;
@@ -22,6 +23,7 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
+import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
@@ -49,11 +51,13 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
 		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
+		yardPortrayal.setPortrayalForClass(Soin.class, getSoinPortrayal());
 		display.reset();
 		Color backgroundCol = new Color(13, 115, 13);
 		display.setBackdrop(backgroundCol);
 		display.repaint();
 	}
+
 	public void init(Controller c) {
 		super.init(c);
 		display = new Display2D(2*FRAME_SIZE,FRAME_SIZE,this);
@@ -111,7 +115,7 @@ public class BeingsWithUI extends GUIState {
 			@Override
 			public void draw(Object o, Graphics2D g, DrawInfo2D info){
 				Contender i = (Contender)o;
-				if(i.vie>=6)
+				if(i.vie>=10)
 					this.paint=Color.GREEN;
 				else if (i.vie>=3)
 					this.paint=Color.ORANGE;
@@ -123,6 +127,12 @@ public class BeingsWithUI extends GUIState {
 		
 		r.paint = Color.YELLOW;
 		r.filled = true;
+		return r;
+	}
+	
+	private ImagePortrayal2D getSoinPortrayal() {
+		ImageIcon icon = new ImageIcon("res/icon/heal.png");
+		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}
 	

@@ -21,7 +21,8 @@ public class Contender extends MySteppable {
 	public static int NOURRITURE_MAX = 4;
 	public static int ENERGIE_PAR_BOUFFE = 4;
 	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION;
-
+	public static int VIE_CRITIQUE = 10;
+	
 	public int vie;
 	public int attaque;
 	public int energie = MAX_ENERGIE;
@@ -61,6 +62,23 @@ public class Contender extends MySteppable {
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
 			System.out.println("Currently at (" + x + "," + y + ")");
+			/****************Recherche soin prioritaire*****************/
+			if(vie < VIE_CRITIQUE)
+			{
+				Soin closestSoin = getClosestSoin();
+				if(closestSoin != null)
+				{
+					if((isAtRange(closestSoin,0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0){
+						seSoigner(closestSoin);
+						roundDone = true;
+						}
+						else
+						{
+							MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP);
+						}
+				}
+				
+			}
 			/****************Traitement bouffe*****************/
 			if(energie < BOUFFE_CRITIQUE){
 				System.out.println("Energy running low");
@@ -107,6 +125,41 @@ public class Contender extends MySteppable {
 		}
 	}
 
+	private void seSoigner(Soin soin) {
+		// TODO Auto-generated method stub
+		while (soin.quantite > 0 && vie < MAX_VIE) {
+			vie++;
+			soin.quantite--;
+			System.out.println("I'm getting better !");
+		}
+		energie--;
+	}
+
+	private Soin getClosestSoin() {
+		// teste toutes les distances pour trouver le plus proche
+		for (int i = 1; i <= distancePerception; i++) {
+			Soin closestSoin = findHealAtRange(i);
+			if (closestSoin != null) {
+				System.out.println("Heal found, at " + closestSoin.x + " ; " + closestSoin.y);
+				return closestSoin;
+			}
+		}
+		System.out.println("No heal found within range " + distancePerception);
+		return null;
+	}
+
+	private Soin findHealAtRange(int range) {
+		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
+		// retourne le premier soin � une distance range
+		for (Object o : b) {
+			if (o instanceof Soin) {
+				Soin soin = (Soin) o;
+				return soin;
+			}
+		}
+		return null;
+	}
+	
 	// trouve l'enn//emi le plus proche, retourne null si aucun n'est visible
 	public Contender getClosestEnemy() {
 		// teste toutes les distances pour trouver le plus proche
@@ -121,6 +174,7 @@ public class Contender extends MySteppable {
 		System.out.println("No contender found within range " + distancePerception);
 		return null;
 	}
+
 
 	// trouve un ennemi � une distance range
 	@SuppressWarnings("deprecation")
