@@ -140,6 +140,10 @@ public class Contender extends MySteppable {
 							roundDone = true;
 						}
 					}
+					else{
+						MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+						roundDone = true;
+					}
 				}
 			}
 		}
@@ -179,7 +183,7 @@ public class Contender extends MySteppable {
 		return null;
 	}
 	
-	// trouve l'enn//emi le plus proche, retourne null si aucun n'est visible
+	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
 	public Contender getClosestEnemy() {
 		// teste toutes les distances pour trouver le plus proche
 		// (v�rifier si getNeighbors classe pas d�j� par proximit�)
