@@ -37,7 +37,6 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentsHeal() {
-		// TODO Auto-generated method stub
 		for(int i = 0; i < NUM_HEAL; i++)
 		{
 			addAgentHeal();
@@ -45,7 +44,6 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentHeal() {
-		// TODO Auto-generated method stub
 		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
 				random.nextInt(yard.getHeight()) );
 		Object ag = null;
@@ -57,7 +55,6 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentHeal(int x, int y) {
-		// TODO Auto-generated method stub
 		Int2D location = new Int2D(x,y);
 		Soin a = new Soin(location.x,location.y);
 		yard.setObjectLocation(a, location.x, location.y);
@@ -142,7 +139,7 @@ public class Beings extends SimState {
 		
 		Int2D location = new Int2D(x,y);
 		System.out.println();
-		Contender a = new Contender(location.x, location.y);
+		Contender a = new Contender(location.x, location.y, this);
 		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;

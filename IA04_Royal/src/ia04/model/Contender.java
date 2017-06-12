@@ -39,17 +39,18 @@ public class Contender extends MySteppable {
 		this.energie = energie;
 	}
 
-	public Contender(int x, int y) {
+	public Contender(int x, int y, Beings b ) {
 		super(x, y);
+		beings = b;
 		Random rand = new Random();
 		int attaque = rand.nextInt(MAX_ATTAQUE - MIN_ATTAQUE + 1) + MIN_ATTAQUE;
 		int vie = rand.nextInt(MAX_VIE - MIN_VIE + 1) + MIN_VIE;
-		arme = null;
-		Arme a = new Arme(x, y);
-		takeWeapon(a);
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
+		arme = null;
+		Arme a = new Arme(x, y);
+		takeWeapon(a);
 	}
 
 	@Override
@@ -71,16 +72,17 @@ public class Contender extends MySteppable {
 					if((isAtRange(closestSoin,0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0){
 						seSoigner(closestSoin);
 						roundDone = true;
-						}
-						else
-						{
-							MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP);
-						}
+					}
+					else
+					{
+						MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP);
+						roundDone = true;
+					}
 				}
-				
+
 			}
 			/****************Traitement bouffe*****************/
-			if(energie < BOUFFE_CRITIQUE){
+			if(energie < BOUFFE_CRITIQUE && !roundDone){
 				System.out.println("Energy running low");
 				if(nourriture > 0){
 					eat();
@@ -91,12 +93,13 @@ public class Contender extends MySteppable {
 					Nourriture food = getClosestFood();
 					if(food != null){
 						if((isAtRange(food,0) || isAtRange(food, 1)) && food.quantite > 0){
-						takeFood(food);
-						roundDone = true;
+							takeFood(food);
+							roundDone = true;
 						}
 						else
 						{
 							MoveTowards(food.x, food.y, MAX_DEP);
+							roundDone = true;
 						}
 					}
 				}
@@ -108,8 +111,7 @@ public class Contender extends MySteppable {
 				if (closestEnemy != null) {
 					if (!isAtRange(closestEnemy, 1)) {
 						MoveTowards(closestEnemy.x, closestEnemy.y, 1);
-						//si on emp�che le d�placement vers l'endroit o� on est, certains contestants ne bougent pas,
-						//je sais pas pourquoi
+						roundDone = true;
 					} else {
 						System.out.println("ennemi � port�e, je le tape ou je fuis");
 						if (closestEnemy.attaque * 2 > vie)
@@ -118,15 +120,32 @@ public class Contender extends MySteppable {
 							attack(closestEnemy);
 					}
 				} else {
-					// pas d'ennemis trouv�, marche vers le centre
-					MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+					// pas d'ennemis trouv�, marche vers là où il y a des armes mieux 
+					//et si non, vers le centre
+					Arme a = getClosestWeapon();
+					if (a != null){
+						if (a.x == x && a.y == y){
+							roundDone = takeWeapon(a);
+							if (!roundDone){
+								MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+								roundDone = true;
+							}
+							else{
+								MoveTowards(a.x, a.y, MAX_DEP);
+								roundDone = true;
+							}
+						}
+						else{
+							MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+							roundDone = true;
+						}
+					}
 				}
 			}
 		}
 	}
 
 	private void seSoigner(Soin soin) {
-		// TODO Auto-generated method stub
 		while (soin.quantite > 0 && vie < MAX_VIE) {
 			vie++;
 			soin.quantite--;
@@ -315,18 +334,53 @@ public class Contender extends MySteppable {
 		energie--;
 	}
 
-	public void takeWeapon(Arme weapon){
+	public boolean takeWeapon(Arme weapon){
 		//Si weapon est meilleur que l'arme actuelle OU qu'on n'a pas d'arme actuelle
 		if((arme != null && arme.getpower() < weapon.getpower()) || (arme == null)){
-			//TODO Un fois que la modif en SparseGrid2D aura été faite
-			//beings.yard.remove(weapon);
+			beings.yard.remove(weapon);
 			if(arme!=null) //on repose l'arme qu'on avait
 			{
+				attaque -= arme.getpower();
 				beings.addAgentArme(x, y, arme);
+				System.out.println("Weapon changed!");
 			}
 			arme = weapon;
+			attaque += arme.getpower();
+			energie --;
+			return true;
 		}
-
-
+		return false;
 	}
+	
+	public Arme getClosestWeapon() {
+		// teste toutes les distances pour trouver le plus proche
+		// (v�rifier si getNeighbors classe pas d�j� par proximit�)
+		for (int i = 1; i <= distancePerception; i++) {
+			Arme closestWeapon = findWeaponAtRange(i);
+			if (closestWeapon != null) {
+				System.out.println("ClosestWeapon found, at " + closestWeapon.x + " ; " + closestWeapon.y);
+				return closestWeapon;
+			}
+		}
+		System.out.println("No weapon found within range " + distancePerception);
+		return null;
+	}
+
+
+	// trouve un ennemi � une distance range
+	@SuppressWarnings("deprecation")
+	public Arme findWeaponAtRange(int range) {
+		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
+		// retourne le premier armeender � une distance range
+		for (Object o : b) {
+			if (o instanceof Arme) {
+				Arme arme = (Arme) o;
+				System.out.println("weapon found in range " + range);
+				System.out.println("its location : " + arme.x + "," + arme.y + "and power :" + arme.getpower());
+				return arme;
+			}
+		}
+		return null;
+	}
+
 }
