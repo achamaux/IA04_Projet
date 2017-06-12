@@ -27,6 +27,7 @@ import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
+import sim.portrayal.simple.LabelledPortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 
 public class BeingsWithUI extends GUIState {
@@ -47,10 +48,11 @@ public class BeingsWithUI extends GUIState {
 	public void setupPortrayals() {
 		Beings beings = (Beings) state;
 		yardPortrayal.setField(beings.yard );
-		yardPortrayal.setPortrayalForClass(Insecte.class, getInsectePortrayal());
+		//yardPortrayal.setPortrayalForClass(Insecte.class, getInsectePortrayal());
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
-		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
+		//yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
+		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayalLabelled());
 		yardPortrayal.setPortrayalForClass(Soin.class, getSoinPortrayal());
 		display.reset();
 		Color backgroundCol = new Color(13, 115, 13);
@@ -69,7 +71,7 @@ public class BeingsWithUI extends GUIState {
 		display.attach( yardPortrayal, "Yard" );
 	}
 
-	private OvalPortrayal2D getInsectePortrayal() {
+	/*private OvalPortrayal2D getInsectePortrayal() {
 		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
 
 			private static final long serialVersionUID = -9018920390744116027L;
@@ -93,7 +95,7 @@ public class BeingsWithUI extends GUIState {
 		r.paint = Color.RED;
 		r.filled = true;
 		return r;
-	}
+	}*/
 	
 	private ImagePortrayal2D getNourriturePortrayal() {
 		ImageIcon icon = new ImageIcon("res/icon/hamburger.png");
@@ -123,11 +125,30 @@ public class BeingsWithUI extends GUIState {
 					this.paint=Color.RED;
 				super.draw(o,g,info);
 			}
+			
 		};
 		
 		r.paint = Color.YELLOW;
 		r.filled = true;
 		return r;
+	}
+	
+	private LabelledPortrayal2D getContenderPortrayalLabelled(){
+		OvalPortrayal2D child = getContenderPortrayal();
+		String l = "initialisation" ;
+		LabelledPortrayal2D r = new LabelledPortrayal2D(child,l){
+
+			private static final long serialVersionUID = -5155353521577168909L;
+			
+			@Override
+			public String getLabel(Object o, DrawInfo2D info){
+				Contender i = (Contender)o;
+				String label = "| Position : (" + i.x + "," + i.y + ")" + " Energie = " + i.energie + " Vie = " + i.vie + " Attaque = " + i.attaque + " |";				
+				return label;
+			}
+		};
+		return r;
+		
 	}
 	
 	private ImagePortrayal2D getSoinPortrayal() {
