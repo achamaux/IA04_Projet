@@ -38,9 +38,9 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentsMap() {
-		for(int i = 0; i < 2*GRID_SIZE; i++)
+		for(int i = 0; i < GRID_SIZE; i++)
 		{
-			for (int j = 0; j < GRID_SIZE; j++)
+			for (int j = 0; j < 2*GRID_SIZE; j++)
 			{
 				addAgentMap(i,j);
 			}

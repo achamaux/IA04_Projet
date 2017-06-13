@@ -7,6 +7,9 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -36,6 +39,8 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
 	public Display2D display;
+	static public int[][] mapMat = null;
+	private String mapFile = "res/map/map1"; 
 	public JFrame displayFrame;
 	SparseGridPortrayal2D yardPortrayal =
 			new SparseGridPortrayal2D();
@@ -72,8 +77,40 @@ public class BeingsWithUI extends GUIState {
 		c.registerFrame(displayFrame);
 		displayFrame.setVisible(true);
 		display.attach( yardPortrayal, "Yard" );
+		initMat();
+		displayMat();
 	}
 
+	private void initMat()
+	{
+		// Nous déclarons nos objets en dehors du bloc try/catch
+	    FileInputStream fis = null;
+	    
+		mapMat = new int[Beings.GRID_SIZE][Beings.GRID_SIZE* 2];
+
+		try{
+			Scanner sc = new Scanner(new File(mapFile));
+			for (int i = 0; i < Beings.GRID_SIZE; i++){
+              for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
+              	mapMat[i][j] = sc.nextInt();
+              }
+          }
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("erreur fichier");
+		}  
+
+	}
+	
+	private void displayMat(){
+		for (int i = 0; i < Beings.GRID_SIZE; i++){
+            for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
+            	System.out.print(mapMat[i][j] + " ");
+            }
+            System.out.print('\n');
+        }
+	}
 	/*private OvalPortrayal2D getInsectePortrayal() {
 		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
 
