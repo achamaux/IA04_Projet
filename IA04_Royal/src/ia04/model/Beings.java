@@ -1,8 +1,10 @@
 package ia04.model;
 
+import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.engine.Stoppable;
 import sim.field.grid.SparseGrid2D;
+import sim.util.Bag;
 import sim.util.Int2D;
 
 public class Beings extends SimState {
@@ -66,13 +68,24 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentHeal() {
+		Map m = getNewLocation();
+		while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+			m = getNewLocation();
+		}
+		addAgentHeal(m.x, m.y);
+	}
+	
+	private Map getNewLocation() {
 		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
 				random.nextInt(yard.getHeight()) );
-		while ((yard.numObjectsAtLocation(location.x, location.y)) > 1) {
-			location = new Int2D(random.nextInt(yard.getWidth()),
-					random.nextInt(yard.getHeight()) );
-		}
-		addAgentHeal(location.x, location.y);
+		Bag b = yard.getObjectsAtLocation(location.x, location.y);
+		for (Object o : b) {
+			if (o instanceof Map) {
+				Map m = (Map) o;
+				return m;
+				}
+			}
+		return null;
 	}
 
 	private void addAgentHeal(int x, int y) {
@@ -93,13 +106,11 @@ public class Beings extends SimState {
 	}
 	
 	public void addAgentNourriture() {
-		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
-				random.nextInt(yard.getHeight()) );
-		while ((yard.numObjectsAtLocation(location.x, location.y)) > 1) {
-			location = new Int2D(random.nextInt(yard.getWidth()),
-					random.nextInt(yard.getHeight()) );
+		Map m = getNewLocation();
+		while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+			m = getNewLocation();
 		}
-		addAgentNourriture(location.x, location.y);
+		addAgentNourriture(m.x, m.y);
 	}
 
 	public void addAgentNourriture(int x, int y) {
@@ -120,14 +131,12 @@ public class Beings extends SimState {
 	}
 	
 	public void addAgentArme() {
-		Int2D location = new Int2D(random.nextInt(yard.getWidth()),
-				random.nextInt(yard.getHeight()) );
-		while ((yard.numObjectsAtLocation(location.x, location.y)) > 1) {
-			location = new Int2D(random.nextInt(yard.getWidth()),
-					random.nextInt(yard.getHeight()) );
+		Map m = getNewLocation();
+		while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+			m = getNewLocation();
 		}
-		Arme a = new Arme(location.x,location.y);
-		addAgentArme(location.x, location.y, a);
+		Arme a = new Arme(m.x,m.y);
+		addAgentArme(m.x, m.y, a);
 	}
 
 	public void addAgentArme(int x, int y, Arme a) {
@@ -143,13 +152,11 @@ public class Beings extends SimState {
 	
 	private void addAgentsContender() {
 		for(int i = 0; i < NUM_CONTENDERS; i++) {
-			Int2D location = new Int2D(random.nextInt(yard.getWidth()),
-					random.nextInt(yard.getHeight()) );
-			while ((yard.numObjectsAtLocation(location.x, location.y)) > 1) {
-				location = new Int2D(random.nextInt(yard.getWidth()),
-						random.nextInt(yard.getHeight()) );
+			Map m = getNewLocation();
+			while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+				m = getNewLocation();
 			}
-			addAgentContender(location.x, location.y);
+			addAgentContender(m.x, m.y);
 		}
 	}
 	

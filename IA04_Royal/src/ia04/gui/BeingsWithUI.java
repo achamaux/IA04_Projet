@@ -42,6 +42,10 @@ public class BeingsWithUI extends GUIState {
 	static public int[][] mapMat = null;
 	private String mapFile = "res/map/map1"; 
 	public JFrame displayFrame;
+	Color eauColor = new Color(66, 123, 202);
+	Color jungleColor = new Color(69, 99, 40);
+	Color plaineColor = new Color(122,166,71);
+	Color desertColor = new Color(246, 226, 155);
 	SparseGridPortrayal2D yardPortrayal =
 			new SparseGridPortrayal2D();
 	public BeingsWithUI(SimState state) {
@@ -140,6 +144,8 @@ public class BeingsWithUI extends GUIState {
 
 	private RectanglePortrayal2D getMapPortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D(){
+			
+			
 
 			private static final long serialVersionUID = -2531930723151537502L;
 			
@@ -147,11 +153,11 @@ public class BeingsWithUI extends GUIState {
 			public void draw(Object o, Graphics2D g, DrawInfo2D info){
 				Map i = (Map)o;
 				if(i.z.equals(Zone.EAU))
-					this.paint=Color.BLUE;
+					this.paint=eauColor;
 				else if (i.z.equals(Zone.JUNGLE))
-					this.paint=Color.GREEN;
+					this.paint=jungleColor;
 				else
-					this.paint=Color.YELLOW;
+					this.paint=desertColor;
 				super.draw(o,g,info);
 			}
 		};
