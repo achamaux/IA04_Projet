@@ -116,11 +116,11 @@ public class BeingsWithUI extends GUIState {
 			public void draw(Object o, Graphics2D g, DrawInfo2D info){
 				Map i = (Map)o;
 				if(i.z.equals(Zone.EAU))
-					this.paint=plaineColor;
+					this.paint=eauColor;
 				else if (i.z.equals(Zone.JUNGLE))
 					this.paint=jungleColor;
 				else
-					this.paint=jungleColor;
+					this.paint=desertColor;
 				super.draw(o,g,info);
 			}
 		};
