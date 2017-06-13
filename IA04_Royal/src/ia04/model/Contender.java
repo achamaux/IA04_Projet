@@ -28,6 +28,7 @@ public class Contender extends MySteppable {
 	public int vie;
 	public int attaque;
 	public int energie = MAX_ENERGIE;
+	public int energieDeplacement = ENERGIE_PAR_DEP;
 	public int distancePerception = DIST_PERCEPTION;
 	public int nourriture = 0;
 	public Arme arme;
@@ -258,7 +259,7 @@ public class Contender extends MySteppable {
 		}
 
 		if (energie > 0)
-			energie = energie - dist * ENERGIE_PAR_DEP;
+			energie = energie - dist * energieDeplacement;
 		else
 			vie--;
 		
@@ -324,9 +325,11 @@ public class Contender extends MySteppable {
 			meurt(beings);
 			System.out.println("Je meurs car je suis dans l'eau, glou glou");}
 		else if (z.equals(Zone.JUNGLE))
-			DIST_PERCEPTION = 3;
+			distancePerception = DIST_PERCEPTION -2;
 		else if (z.equals(Zone.DESERT))
-			ENERGIE_PAR_DEP = 2;		
+			energieDeplacement = 2*ENERGIE_PAR_DEP;
+		//else if (z.equals(Zone.PLAINE))
+			//energieDeplacement = ENERGIE_PAR_DEP;		
 	}
 	
 	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
