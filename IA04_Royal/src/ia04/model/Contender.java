@@ -1,7 +1,9 @@
 package ia04.model;
 
+import java.awt.Color;
 import java.util.Random;
 
+import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
 
@@ -63,6 +65,11 @@ public class Contender extends MySteppable {
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
 			System.out.println("Currently at (" + x + "," + y + ")");
+			
+			/****************Récupération des infos de la map*****************/
+			Map currentMap = getMap(x,y);
+			getEffectFromMap(currentMap);
+			
 			/****************Recherche soin prioritaire*****************/
 			if(vie < VIE_CRITIQUE)
 			{
@@ -297,6 +304,31 @@ public class Contender extends MySteppable {
 		}
 	}
 
+	// retourne l'objet Map de la case
+	public Map getMap(int x, int y) {
+		Bag b = beings.yard.getObjectsAtLocation(x, y);
+		for (Object o : b) {
+			if (o instanceof Map) {
+				Map m = (Map) o;
+				return m;
+			}
+		}
+		return null;
+	}
+
+	// affecte le contender 
+	void getEffectFromMap(Map m){
+		//Récupération de la map
+		Zone z = m.z;
+		if(z.equals(Zone.EAU)){
+			meurt(beings);
+			System.out.println("Je meurs car je suis dans l'eau, glou glou");}
+		else if (z.equals(Zone.JUNGLE))
+			DIST_PERCEPTION = 3;
+		else if (z.equals(Zone.DESERT))
+			ENERGIE_PAR_DEP = 2;		
+	}
+	
 	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
 	public Nourriture getClosestFood() {
 		// teste toutes les distances pour trouver le plus proche
