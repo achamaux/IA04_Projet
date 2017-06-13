@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import ia04.model.Arme;
 import ia04.model.Beings;
 import ia04.model.Insecte;
+import ia04.model.Map;
+import ia04.model.Map.Zone;
 import ia04.model.Nourriture;
 import ia04.model.Soin;
 import ia04.model.Contender;
@@ -29,6 +31,7 @@ import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.LabelledPortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
+import sim.portrayal.simple.RectanglePortrayal2D;
 
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
@@ -48,7 +51,7 @@ public class BeingsWithUI extends GUIState {
 	public void setupPortrayals() {
 		Beings beings = (Beings) state;
 		yardPortrayal.setField(beings.yard );
-		//yardPortrayal.setPortrayalForClass(Insecte.class, getInsectePortrayal());
+		yardPortrayal.setPortrayalForClass(Map.class, getMapPortrayal());
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
 		//yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
@@ -96,6 +99,29 @@ public class BeingsWithUI extends GUIState {
 		r.filled = true;
 		return r;
 	}*/
+
+
+	private RectanglePortrayal2D getMapPortrayal() {
+		RectanglePortrayal2D r = new RectanglePortrayal2D(){
+
+			private static final long serialVersionUID = -2531930723151537502L;
+			
+			@Override
+			public void draw(Object o, Graphics2D g, DrawInfo2D info){
+				Map i = (Map)o;
+				if(i.z.equals(Zone.EAU))
+					this.paint=Color.BLUE;
+				else if (i.z.equals(Zone.JUNGLE))
+					this.paint=Color.GREEN;
+				else
+					this.paint=Color.YELLOW;
+				super.draw(o,g,info);
+			}
+		};
+		//r.paint=Color.PINK;
+		r.filled = true;		
+		return r;
+	}
 	
 	private ImagePortrayal2D getNourriturePortrayal() {
 		ImageIcon icon = new ImageIcon("res/icon/hamburger.png");
