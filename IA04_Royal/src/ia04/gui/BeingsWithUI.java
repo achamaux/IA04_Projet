@@ -82,7 +82,7 @@ public class BeingsWithUI extends GUIState {
 		displayFrame.setVisible(true);
 		display.attach( yardPortrayal, "Yard" );
 		initMat();
-		displayMat();
+		//displayMat();
 	}
 
 	private void initMat()
@@ -91,18 +91,22 @@ public class BeingsWithUI extends GUIState {
 	    FileInputStream fis = null;
 	    
 		mapMat = new int[Beings.GRID_SIZE][Beings.GRID_SIZE* 2];
-
+		int ii = 0;
+		int jj = 0;
 		try{
 			Scanner sc = new Scanner(new File(mapFile));
 			for (int i = 0; i < Beings.GRID_SIZE; i++){
               for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
+            	  ii = i;
+            	  jj = j;
               	mapMat[i][j] = sc.nextInt();
               }
+              System.out.println("jj : "+jj);
           }
 			
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("erreur fichier");
+			System.out.println("erreur fichier"+ii+" "+jj);
 		}  
 
 	}

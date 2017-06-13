@@ -18,17 +18,19 @@ import sim.engine.SimState;
 public class Map extends MySteppable { 
 
 	private static final long serialVersionUID = -3233964416056145588L;
-	public enum Zone {EAU, JUNGLE, DESERT};
+	public enum Zone {EAU, JUNGLE, DESERT, PLAINE};
 	public Zone z;
 
 	public Map(int x, int y) {
 		super(x,y);
 		 	
 		z = Zone.DESERT;
-		if(BeingsWithUI.mapMat[x][y] == 1)
+		/*
+		if(BeingsWithUI.mapMat[y][x] == 1)
 		{
 			z = Zone.EAU;
 		}
+		*/
 		
 	}
 	
