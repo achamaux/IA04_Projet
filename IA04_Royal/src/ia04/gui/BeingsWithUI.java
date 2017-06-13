@@ -39,10 +39,8 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
 	public Display2D display;
-	static public int[][] mapMat = null;
-	private String mapFile = "res/map/map1"; 
 	public JFrame displayFrame;
-	Color eauColor = new Color(66, 123, 202);
+	Color eauColor = new Color(66, 124, 202);//new Color(66, 123, 202);
 	Color jungleColor = new Color(69, 99, 40);
 	Color plaineColor = new Color(122,166,71);
 	Color desertColor = new Color(246, 226, 155);
@@ -52,7 +50,8 @@ public class BeingsWithUI extends GUIState {
 		super(state);
 	}
 	public void start() {
-		super.start(); setupPortrayals();
+		super.start();
+		setupPortrayals();
 	}
 	public void load(SimState state) {
 
@@ -81,44 +80,8 @@ public class BeingsWithUI extends GUIState {
 		c.registerFrame(displayFrame);
 		displayFrame.setVisible(true);
 		display.attach( yardPortrayal, "Yard" );
-		initMat();
-		//displayMat();
 	}
 
-	private void initMat()
-	{
-		// Nous déclarons nos objets en dehors du bloc try/catch
-	    FileInputStream fis = null;
-	    
-		mapMat = new int[Beings.GRID_SIZE][Beings.GRID_SIZE* 2];
-		int ii = 0;
-		int jj = 0;
-		try{
-			Scanner sc = new Scanner(new File(mapFile));
-			for (int i = 0; i < Beings.GRID_SIZE; i++){
-              for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
-            	  ii = i;
-            	  jj = j;
-              	mapMat[i][j] = sc.nextInt();
-              }
-              System.out.println("jj : "+jj);
-          }
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("erreur fichier"+ii+" "+jj);
-		}  
-
-	}
-	
-	private void displayMat(){
-		for (int i = 0; i < Beings.GRID_SIZE; i++){
-            for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
-            	System.out.print(mapMat[i][j] + " ");
-            }
-            System.out.print('\n');
-        }
-	}
 	/*private OvalPortrayal2D getInsectePortrayal() {
 		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
 
@@ -156,12 +119,22 @@ public class BeingsWithUI extends GUIState {
 			@Override
 			public void draw(Object o, Graphics2D g, DrawInfo2D info){
 				Map i = (Map)o;
-				if(i.z.equals(Zone.EAU))
+				switch(i.z)
+				{
+				case EAU:
 					this.paint=eauColor;
-				else if (i.z.equals(Zone.JUNGLE))
+					break;
+				case JUNGLE:
 					this.paint=jungleColor;
-				else
+					break;
+				case PLAINE:
+					this.paint=plaineColor;
+					break;
+				case DESERT:
 					this.paint=desertColor;
+					break;
+				}
+				
 				super.draw(o,g,info);
 			}
 		};

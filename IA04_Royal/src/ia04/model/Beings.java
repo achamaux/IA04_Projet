@@ -1,5 +1,9 @@
 package ia04.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Scanner;
+
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.engine.Stoppable;
@@ -21,6 +25,9 @@ public class Beings extends SimState {
 	public static int MIN_ATTAQUE = 1;
 	public static int MAX_ATTAQUE = 5;	
 	public static int NUM_INSECT = 500;
+	
+	static public int[][] mapMat = null;
+	private String mapFile = "res/map/map1"; 
 
 	public SparseGrid2D yard =
 			new SparseGrid2D(2*GRID_SIZE,GRID_SIZE);
@@ -32,13 +39,53 @@ public class Beings extends SimState {
 	public void start() {
 		super.start();
 		yard.clear();
+		initMat();
 		addAgentsMap();
 		addAgentsContender();
 		addAgentsNourriture();
 		addAgentsArme();
 		addAgentsHeal();
 	}
+	private void initMat()
+	{
+		// Nous déclarons nos objets en dehors du bloc try/catch
+	    FileInputStream fis = null;
+	    
+		mapMat = new int[Beings.GRID_SIZE][Beings.GRID_SIZE* 2];
+		int ii = 0;
+		int jj = 0;
+		try{
+			Scanner sc = new Scanner(new File(mapFile));
+			for (int i = 0; i < Beings.GRID_SIZE; i++){
+              for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
+            	  ii = i;
+            	  jj = j;
+              	mapMat[i][j] = sc.nextInt();
+              }
+              //System.out.println("jj : "+jj);
+          }
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("erreur fichier"+ii+" "+jj);
+		}  
 
+	}
+	
+	private void displayMat(){
+		try{
+			for (int i = 0; i < Beings.GRID_SIZE; i++){
+	            for (int j = 0; j < 2*Beings.GRID_SIZE; j++){
+	            	System.out.print(mapMat[i][j] + " ");
+	            }
+	            System.out.print('\n');
+	        }
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("problem display mat");
+		}
+		
+	}
 	private void addAgentsMap() {
 		for(int i = 0; i < 2*GRID_SIZE; i++)
 		{

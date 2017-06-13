@@ -24,13 +24,25 @@ public class Map extends MySteppable {
 	public Map(int x, int y) {
 		super(x,y);
 		 	
-		z = Zone.DESERT;
-		/*
-		if(BeingsWithUI.mapMat[y][x] == 1)
-		{
-			z = Zone.EAU;
+		z = Zone.EAU;
+//		try{
+//		if(x==150)
+//			System.out.println("x=="+x);
+//		if(y==150)
+//			System.out.println("y=="+y);
+		try{
+			System.out.println("before");
+			if(Beings.mapMat[y][x] == 1)
+			{
+				System.out.println("after");
+				z = Zone.PLAINE;
+			}	
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("x : " +x+ "y : "+y);
 		}
-		*/
+		
+		
 		
 	}
 	
