@@ -12,6 +12,7 @@ public class Contender extends MySteppable {
 	private static final long serialVersionUID = 6893667159868881758L;
 	
 	public static int DIST_PERCEPTION = 5;
+	public static int DIST_PERCEPTION_JUNGLE = 2;
 	public static int MAX_DEP = 4;
 	public static int MAX_ENERGIE = 20;
 	public static int MIN_VIE = 10;
@@ -19,6 +20,7 @@ public class Contender extends MySteppable {
 	public static int MIN_ATTAQUE = 1;
 	public static int MAX_ATTAQUE = 5;
 	public static int ENERGIE_PAR_DEP = 1;
+	public static int ENERGIE_PAR_DEP_DESERT = 2*ENERGIE_PAR_DEP;
 	public static int ENERGIE_PAR_ATT = 2;
 	public static int NOURRITURE_MAX = 4;
 	public static int ENERGIE_PAR_BOUFFE = 4;
@@ -66,6 +68,9 @@ public class Contender extends MySteppable {
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
 			System.out.println("Currently at (" + x + "," + y + ")");
+			
+			/****************Je vérifie si pas tombé dans un piege*****************/
+			isTrapped(x,y);
 			
 			/****************Récupération des infos de la map*****************/
 			Map currentMap = getMap(x,y);
@@ -155,6 +160,25 @@ public class Contender extends MySteppable {
 				}
 			}
 		}
+	}
+
+	private void isTrapped(int x, int y) {
+		// Je vérifie si un piège est présent sur ma position
+		Bag b = beings.yard.getObjectsAtLocation(x, y);
+		for (Object o : b) {
+			if (o instanceof Piege) {
+				Piege p = (Piege) o;
+				getTrapped(p);
+			}
+		}
+		
+	}
+
+	private void getTrapped(Piege p) {
+		// Je perds de la vie selon les dégats du piege
+		vie-=p.degat;
+		if (vie < 0) vie = 0;
+		p.meurt(beings);
 	}
 
 	private void seSoigner(Soin soin) {
@@ -274,6 +298,7 @@ public class Contender extends MySteppable {
 
 	public void attack(Contender cont) {
 		cont.vie -= attaque;
+		if (vie < 0) vie = 0;
 		energie -= ENERGIE_PAR_ATT;
 	}
 
@@ -325,11 +350,11 @@ public class Contender extends MySteppable {
 			meurt(beings);
 			System.out.println("Je meurs car je suis dans l'eau, glou glou");}
 		else if (z.equals(Zone.JUNGLE))
-			distancePerception = DIST_PERCEPTION -2;
+			distancePerception = DIST_PERCEPTION_JUNGLE;
 		else if (z.equals(Zone.DESERT))
-			energieDeplacement = 2*ENERGIE_PAR_DEP;
-		//else if (z.equals(Zone.PLAINE))
-			//energieDeplacement = ENERGIE_PAR_DEP;		
+			energieDeplacement = ENERGIE_PAR_DEP_DESERT;
+		else if (z.equals(Zone.PLAINE))
+			energieDeplacement = ENERGIE_PAR_DEP;		
 	}
 	
 	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible

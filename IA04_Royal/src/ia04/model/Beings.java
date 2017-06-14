@@ -17,6 +17,7 @@ public class Beings extends SimState {
 
 	public static int GRID_SIZE = 75;
 	public static int NUM_FOOD_CELL = 80;
+	public static int NUM_PIEGE = 50;
 	public static int NUM_CONTENDERS = 50;
 	public static int NUM_HEAL = 50;
 	public static int NUM_ARME = 20;
@@ -43,6 +44,7 @@ public class Beings extends SimState {
 		addAgentsMap();
 		addAgentsContender();
 		addAgentsNourriture();
+		addAgentsPiege();
 		addAgentsArme();
 		addAgentsHeal();
 	}
@@ -163,6 +165,31 @@ public class Beings extends SimState {
 	public void addAgentNourriture(int x, int y) {
 		Int2D location = new Int2D(x,y);
 		Nourriture a = new Nourriture(location.x,location.y);
+		yard.setObjectLocation(a, location.x, location.y);
+		a.x = location.x;
+		a.y = location.y;
+		
+		Stoppable stoppable=schedule.scheduleRepeating(a);
+		a.stoppable=stoppable;
+	}
+	
+	private void addAgentsPiege() {
+		for(int i = 0; i < NUM_PIEGE; i++) {
+			addAgentPiege();
+		}
+	}
+	
+	public void addAgentPiege() {
+		Map m = getNewLocation();
+		while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+			m = getNewLocation();
+		}
+		addAgentPiege(m.x, m.y);
+	}
+	
+	public void addAgentPiege(int x, int y) {
+		Int2D location = new Int2D(x,y);
+		Piege a = new Piege(location.x,location.y);
 		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;

@@ -20,6 +20,7 @@ import ia04.model.Insecte;
 import ia04.model.Map;
 import ia04.model.Map.Zone;
 import ia04.model.Nourriture;
+import ia04.model.Piege;
 import ia04.model.Soin;
 import ia04.model.Contender;
 import sim.display.Controller;
@@ -61,6 +62,7 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setField(beings.yard );
 		yardPortrayal.setPortrayalForClass(Map.class, getMapPortrayal());
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
+		yardPortrayal.setPortrayalForClass(Piege.class, getPiegePortrayal());
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
 		//yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
 		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayalLabelled());
@@ -149,6 +151,12 @@ public class BeingsWithUI extends GUIState {
 		return r;
 	}
 	
+	private ImagePortrayal2D getPiegePortrayal() {
+		ImageIcon icon = new ImageIcon("res/icon/piege.png");
+		ImagePortrayal2D r = new ImagePortrayal2D(icon);
+		return r;
+	}
+	
 	private ImagePortrayal2D getArmePortrayal() {
 		ImageIcon icon = new ImageIcon("res/icon/glaive.png");
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
@@ -189,7 +197,7 @@ public class BeingsWithUI extends GUIState {
 			@Override
 			public String getLabel(Object o, DrawInfo2D info){
 				Contender i = (Contender)o;
-				String label = "| Position : (" + i.x + "," + i.y + ")" + " Energie = " + i.energie + " Vie = " + i.vie + " Attaque = " + i.attaque + " |";				
+				String label = "(  E = " + i.energie + " V = " + i.vie + " A= " + i.attaque + " )";				
 				return label;
 			}
 		};
