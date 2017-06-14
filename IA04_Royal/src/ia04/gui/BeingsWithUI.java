@@ -9,8 +9,10 @@ import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -19,6 +21,8 @@ import ia04.model.Beings;
 import ia04.model.Insecte;
 import ia04.model.Map;
 import ia04.model.Map.Zone;
+import ia04.model.Monstre;
+import ia04.model.Monstre.Type;
 import ia04.model.Nourriture;
 import ia04.model.Piege;
 import ia04.model.Soin;
@@ -27,6 +31,7 @@ import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
+import sim.field.grid.SparseGrid2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.Portrayal;
@@ -36,6 +41,7 @@ import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.LabelledPortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
+import sim.util.Bag;
 
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
@@ -66,6 +72,7 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
 		//yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
 		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayalLabelled());
+		yardPortrayal.setPortrayalForClass(Monstre.class, getMonstrePortrayalLabelled());
 		yardPortrayal.setPortrayalForClass(Soin.class, getSoinPortrayal());
 		display.reset();
 		Color backgroundCol = new Color(13, 115, 13);
@@ -114,8 +121,6 @@ public class BeingsWithUI extends GUIState {
 	private RectanglePortrayal2D getMapPortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D(){
 			
-			
-
 			private static final long serialVersionUID = -2531930723151537502L;
 			
 			@Override
@@ -162,6 +167,56 @@ public class BeingsWithUI extends GUIState {
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
 	}
+	
+	private ImagePortrayal2D getMonstrePortrayal() {
+		Image image = null;
+		ImagePortrayal2D r = new ImagePortrayal2D(image){
+		private static final long serialVersionUID = -9018920390744116027L;
+
+		@Override
+		public void draw(Object o, Graphics2D g, DrawInfo2D info){
+			Monstre m = (Monstre)o;
+			File f1 = new File("res/icon/kraken.png");
+			File f2 = new File("res/icon/taureau.png");
+			if(m.t == Type.KRAKEN)
+				try {
+					image = ImageIO.read(f1);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			else if (m.t == Type.TAUREAU)
+				try {
+					image = ImageIO.read(f2);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			super.draw(o,g,info);
+			}
+		
+		};
+		return r;
+	}
+	
+	private LabelledPortrayal2D getMonstrePortrayalLabelled(){
+		ImagePortrayal2D child = getMonstrePortrayal();
+		String l = "initialisation" ;
+		LabelledPortrayal2D r = new LabelledPortrayal2D(child,l){
+
+			private static final long serialVersionUID = -5155353325577168909L;
+			
+			@Override
+			public String getLabel(Object o, DrawInfo2D info){
+				Monstre i = (Monstre)o;
+				String label = "(  E = " + i.energie + " V = " + i.vie + " A= " + i.attaque + " )";				
+				return label;
+			}
+		};
+		return r;
+		
+	}
+	
 	
 	private OvalPortrayal2D getContenderPortrayal() {
 		OvalPortrayal2D r = new OvalPortrayal2D(1.2){

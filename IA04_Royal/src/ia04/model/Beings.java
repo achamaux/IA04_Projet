@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.Scanner;
 
 import ia04.model.Map.Zone;
+import ia04.model.Monstre.Type;
 import sim.engine.SimState;
 import sim.engine.Stoppable;
 import sim.field.grid.SparseGrid2D;
@@ -18,13 +19,12 @@ public class Beings extends SimState {
 	public static int GRID_SIZE = 75;
 	public static int NUM_FOOD_CELL = 80;
 	public static int NUM_PIEGE = 50;
+	public static int NUM_MONSTRE= 2;
 	public static int NUM_CONTENDERS = 50;
 	public static int NUM_HEAL = 50;
 	public static int NUM_ARME = 20;
 	public static int MIN_VIE = 10;
 	public static int MAX_VIE = 20;
-	public static int MIN_ATTAQUE = 1;
-	public static int MAX_ATTAQUE = 5;	
 	public static int NUM_INSECT = 500;
 	
 	static public int[][] mapMat = null;
@@ -43,6 +43,7 @@ public class Beings extends SimState {
 		initMat();
 		addAgentsMap();
 		addAgentsContender();
+		addAgentsMonstres();
 		addAgentsNourriture();
 		addAgentsPiege();
 		addAgentsArme();
@@ -238,7 +239,31 @@ public class Beings extends SimState {
 		
 		Int2D location = new Int2D(x,y);
 		System.out.println();
-		Contender a = new Contender(location.x, location.y, this);
+		Contender a = new Contender(location.x, location.y, 0, 0, 0, 0, this);
+		yard.setObjectLocation(a, location.x, location.y);
+		a.x = location.x;
+		a.y = location.y;
+		
+		Stoppable stoppable=schedule.scheduleRepeating(a);
+		a.stoppable=stoppable;
+	}
+	
+	private void addAgentsMonstres() {
+		for(int i = 0; i < NUM_MONSTRE; i++) {
+			Map m = getNewLocation();
+			while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
+				m = getNewLocation();
+			}
+			if (i==0) addAgentMonstre(m.x, m.y, Type.KRAKEN);
+			else addAgentMonstre(m.x, m.y, Type.TAUREAU);
+		}
+	}
+	
+	public void addAgentMonstre(int x, int y, Type t) {
+		
+		Int2D location = new Int2D(x,y);
+		System.out.println();
+		Monstre a = new Monstre(location.x, location.y, 0, 0, 0, 0, t, this);
 		yard.setObjectLocation(a, location.x, location.y);
 		a.x = location.x;
 		a.y = location.y;

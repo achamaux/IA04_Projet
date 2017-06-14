@@ -1,13 +1,12 @@
 package ia04.model;
 
-import java.awt.Color;
 import java.util.Random;
 
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
 
-public class Contender extends MySteppable {
+public class Contender extends Personnage {
 
 	private static final long serialVersionUID = 6893667159868881758L;
 	
@@ -27,32 +26,30 @@ public class Contender extends MySteppable {
 	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION;
 	public static int VIE_CRITIQUE = 10;
 	
-	public int vie;
-	public int attaque;
-	public int energie = MAX_ENERGIE;
 	public int energieDeplacement = ENERGIE_PAR_DEP;
-	public int distancePerception = DIST_PERCEPTION;
 	public int nourriture = 0;
 	public Arme arme;
 
 	private Beings beings;
 
-	public Contender(int x, int y, int attaque, int vie, int energie) {
-		super(x, y);
+	public Contender(int x, int y, int attaque, int vie, int energie, int distancePerception) {
+		super(x, y, vie, attaque, energie, distancePerception);
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = energie;
+		this.distancePerception = distancePerception;
 	}
 
-	public Contender(int x, int y, Beings b ) {
-		super(x, y);
+	public Contender(int x, int y, int vie, int attaque, int energie,int distancePerception, Beings b ) {
+		super(x, y, vie, attaque, energie, distancePerception);
 		beings = b;
 		Random rand = new Random();
-		int attaque = rand.nextInt(MAX_ATTAQUE - MIN_ATTAQUE + 1) + MIN_ATTAQUE;
-		int vie = rand.nextInt(MAX_VIE - MIN_VIE + 1) + MIN_VIE;
+		attaque = rand.nextInt(MAX_ATTAQUE - MIN_ATTAQUE + 1) + MIN_ATTAQUE;
+		vie = rand.nextInt(MAX_VIE - MIN_VIE + 1) + MIN_VIE;
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
+		this.distancePerception = DIST_PERCEPTION;
 		arme = null;
 		Arme a = new Arme(x, y);
 		takeWeapon(a);
@@ -88,7 +85,7 @@ public class Contender extends MySteppable {
 					}
 					else
 					{
-						MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP);
+						MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP, beings, energieDeplacement);
 						roundDone = true;
 					}
 				}
@@ -111,7 +108,7 @@ public class Contender extends MySteppable {
 						}
 						else
 						{
-							MoveTowards(food.x, food.y, MAX_DEP);
+							MoveTowards(food.x, food.y, MAX_DEP, beings, energieDeplacement);
 							roundDone = true;
 						}
 					}
@@ -119,18 +116,18 @@ public class Contender extends MySteppable {
 			}
 			if(!roundDone)
 			{
-				/****************Traitement enemi*****************/
-				Contender closestEnemy = getClosestEnemy();
+				/****************Traitement ennemi*****************/
+				Personnage closestEnemy = getClosestEnemy(beings);
 				if (closestEnemy != null) {
 					if (!isAtRange(closestEnemy, 1)) {
-						MoveTowards(closestEnemy.x, closestEnemy.y, 1);
+						MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, energieDeplacement);
 						roundDone = true;
 					} else {
 						System.out.println("ennemi � port�e, je le tape ou je fuis");
 						if (closestEnemy.attaque * 2 > vie)
 							escapeFrom(closestEnemy);
 						else
-							attack(closestEnemy);
+							attack(closestEnemy, ENERGIE_PAR_ATT);
 					}
 				} else {
 					// pas d'ennemis trouv�, marche vers là où il y a des armes mieux 
@@ -140,21 +137,21 @@ public class Contender extends MySteppable {
 						if (a.x == x && a.y == y){
 							roundDone = takeWeapon(a);
 							if (!roundDone){
-								MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+								MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 								roundDone = true;
 							}
 							else{
-								MoveTowards(a.x, a.y, MAX_DEP);
+								MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
 								roundDone = true;
 							}
 						}
 						else{
-							MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+							MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 							roundDone = true;
 						}
 					}
 					else{
-						MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1);
+						MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 						roundDone = true;
 					}
 				}
@@ -214,99 +211,13 @@ public class Contender extends MySteppable {
 		}
 		return null;
 	}
-	
-	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
-	public Contender getClosestEnemy() {
-		// teste toutes les distances pour trouver le plus proche
-		// (v�rifier si getNeighbors classe pas d�j� par proximit�)
-		for (int i = 1; i <= distancePerception; i++) {
-			Contender closestEnemy = findEnemyAtRange(i);
-			if (closestEnemy != null) {
-				System.out.println("ClosestEnemy found, at " + closestEnemy.x + " ; " + closestEnemy.y);
-				return closestEnemy;
-			}
-		}
-		System.out.println("No contender found within range " + distancePerception);
-		return null;
-	}
 
-
-	// trouve un ennemi � une distance range
-	@SuppressWarnings("deprecation")
-	public Contender findEnemyAtRange(int range) {
-		Bag b = beings.yard.getNeighborsMaxDistance(x, y, range, true, null, null, null);
-		// retourne le premier contender � une distance range
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender cont = (Contender) o;
-				// le contender est inclut dans le bag, il faut pas le prendre
-				// en compte
-				if (cont.x != x || cont.y != y) {
-					System.out.println("contender found in range " + range);
-					System.out.println("his location : " + cont.x + "," + cont.y);
-					return cont;
-				}
-			}
-		}
-		return null;
-	}
-
-	// se d�place de dist vers la case (x2,y2)
-	public void MoveTowards(int x2, int y2, int dist) {
-		System.out.println("Currently at (" + x + "," + y + ")");
-		System.out.println("moving towards (" + x2 + "," + y2 + ")");
-		int i, dx, dy;
-		for (i = 0; i < dist; i++) {
-			dx = x2 - x;
-			dy = y2 - y;
-			if (Math.abs(dx) > Math.abs(dy)) {
-				if (dx > 0) {
-					beings.yard.setObjectLocation(null, x, y);
-					x++;
-					beings.yard.setObjectLocation(this, x, y);
-				} else if (dx < 0) {
-					beings.yard.setObjectLocation(null, x, y);
-					x--;
-					beings.yard.setObjectLocation(this, x, y);
-				}
-			} else {
-				if (dy > 0) {
-					beings.yard.setObjectLocation(null, x, y);
-					y++;
-					beings.yard.setObjectLocation(this, x, y);
-				} else if (dy < 0) {
-					beings.yard.setObjectLocation(null, x, y);
-					y--;
-					beings.yard.setObjectLocation(this, x, y);
-				}
-			}
-		}
-
-		if (energie > 0)
-			energie = energie - dist * energieDeplacement;
-		else
-			vie--;
-		
-		System.out.println("Now at " + x + "," + y);
-	}
-
-	private boolean isAtRange(MySteppable cont, int range) {
-		int dx = cont.x - x;
-		int dy = cont.y - y;
-		return (Math.abs(dx) <= range && Math.abs(dy) <= range);
-	}
-
-	public void attack(Contender cont) {
-		cont.vie -= attaque;
-		if (vie < 0) vie = 0;
-		energie -= ENERGIE_PAR_ATT;
-	}
 
 	// se déplace dans la direction opposée à celle de l'enemi
-	public void escapeFrom(Contender cont) {
+	public void escapeFrom(Personnage closestEnemy) {
 		int dirx, diry;
-		int dx = cont.x - x;
-		int dy = cont.y - y;
+		int dx = closestEnemy.x - x;
+		int dy = closestEnemy.y - y;
 		dirx = (dx > 0) ? x - MAX_DEP : x + MAX_DEP;
 		if (dirx > Beings.GRID_SIZE)
 			dirx = Beings.GRID_SIZE - 1;
@@ -318,8 +229,8 @@ public class Contender extends MySteppable {
 		if (diry < 0)
 			diry = 0;
 
-		System.out.println("Now escaping from enemy at " + cont.x + " ; " + cont.y);
-		MoveTowards(dirx, diry, MAX_DEP);
+		System.out.println("Now escaping from enemy at " + closestEnemy.x + " ; " + closestEnemy.y);
+		MoveTowards(dirx, diry, MAX_DEP, beings, energieDeplacement);
 	}
 
 	public void eat() {
