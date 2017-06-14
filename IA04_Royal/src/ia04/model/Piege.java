@@ -4,8 +4,6 @@ import sim.engine.SimState;
 
 public class Piege extends MySteppable { 
 
-
-
 	private static final long serialVersionUID = -3233964416056133588L;
 	
 	
