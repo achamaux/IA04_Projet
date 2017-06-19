@@ -3,7 +3,7 @@ package ia04.model;
 import sim.engine.SimState;
 import sim.util.Bag;
 
-public class Insecte extends MySteppable {
+public class Insecte extends Element {
 	
 	private static final long serialVersionUID = -6091343998610385541L;
 

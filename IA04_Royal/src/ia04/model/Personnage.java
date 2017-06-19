@@ -1,10 +1,12 @@
 package ia04.model;
 
+import javax.sound.sampled.AudioFileFormat.Type;
+
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
 
-public abstract class Personnage extends MySteppable {
+public abstract class Personnage extends Element {
 	
 	
 	private static final long serialVersionUID = 1142873167865702301L;
@@ -38,30 +40,36 @@ public abstract class Personnage extends MySteppable {
 		}
 		System.out.println("moving towards (" + x2 + "," + y2 + ")");
 		int i, dx, dy;
+		boolean g_ok = true, d_ok= true, b_ok= true, h_ok= true;
 		for (i = 0; i < dist; i++) {
 			dx = x2 - x;
 			dy = y2 - y;
-			if (Math.abs(dx) > Math.abs(dy)) {
-				if (dx > 0) {
+			
+			//On teste des directions possibles
+			g_ok = isOk(x-1,y); d_ok = isOk(x+1,y); b_ok = isOk(x,y-1); h_ok = isOk(x,y+1);
+			
+			if ((g_ok) || (d_ok)) {	
+				if ((dx > 0) && (d_ok)) {
 					beings.yard.setObjectLocation(null, x, y);
 					x++;
 					beings.yard.setObjectLocation(this, x, y);
-				} else if (dx < 0) {
+				} else if ((dx < 0) && (g_ok)) {
 					beings.yard.setObjectLocation(null, x, y);
 					x--;
 					beings.yard.setObjectLocation(this, x, y);
 				}
-			} else {
-				if (dy > 0) {
+			else {
+				if ((dy > 0) && (h_ok)){
 					beings.yard.setObjectLocation(null, x, y);
 					y++;
 					beings.yard.setObjectLocation(this, x, y);
-				} else if (dy < 0) {
+				} else if ((dy < 0) && (b_ok)) {
 					beings.yard.setObjectLocation(null, x, y);
 					y--;
 					beings.yard.setObjectLocation(this, x, y);
 				}
 			}
+		    }
 		}
 
 		if (energie > 0)
@@ -73,6 +81,11 @@ public abstract class Personnage extends MySteppable {
 		System.out.println("Now at " + x + "," + y);
 		}
 	
+	
+	public boolean isOk(int x, int y){
+		Map cMap = getMap(x,y);
+		return (cMap.z != Zone.EAU);
+	}
 	
 	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
 	public Personnage getClosestEnemy(Beings beings) {
@@ -110,7 +123,7 @@ public abstract class Personnage extends MySteppable {
 		return null;
 	}
 	
-	protected boolean isAtRange(MySteppable cont, int range) {
+	protected boolean isAtRange(Element cont, int range) {
 		int dx = cont.x - x;
 		int dy = cont.y - y;
 		return (Math.abs(dx) <= range && Math.abs(dy) <= range);

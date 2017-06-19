@@ -2,7 +2,7 @@ package ia04.model;
 
 import sim.engine.SimState;
 
-public class Soin extends MySteppable { 
+public class Soin extends Element { 
 	
 	private static final long serialVersionUID = -8939283195372489997L;
 	static public int MAX_QUANTITE=10;

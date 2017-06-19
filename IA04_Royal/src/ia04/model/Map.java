@@ -15,7 +15,7 @@ import java.io.FileReader;
 
 import sim.engine.SimState;
 
-public class Map extends MySteppable { 
+public class Map extends Element { 
 
 	private static final long serialVersionUID = -3233964416056145588L;
 	public enum Zone {EAU, JUNGLE, DESERT, PLAINE};

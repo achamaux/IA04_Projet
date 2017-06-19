@@ -138,7 +138,7 @@ public class Contender extends Personnage {
 						if (a.x == x && a.y == y){
 							roundDone = takeWeapon(a);
 							if (!roundDone){
-								MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+								MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 								roundDone = true;
 							}
 							else{
@@ -147,12 +147,12 @@ public class Contender extends Personnage {
 							}
 						}
 						else{
-							MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+							MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 							roundDone = true;
 						}
 					}
 					else{
-						MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+						MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 						roundDone = true;
 					}
 				}

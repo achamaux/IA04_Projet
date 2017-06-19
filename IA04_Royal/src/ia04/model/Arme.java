@@ -4,7 +4,7 @@ import java.util.Random;
 
 import sim.engine.SimState;
 
-public class Arme extends MySteppable { 
+public class Arme extends Element { 
 
 	
 	private static final long serialVersionUID = 7180337908965110967L;

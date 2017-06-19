@@ -4,7 +4,7 @@ import java.util.Random;
 
 import sim.engine.SimState;
 
-public class Piege extends MySteppable { 
+public class Piege extends Element { 
 
 	private static final long serialVersionUID = -3233964416056133588L;
 	

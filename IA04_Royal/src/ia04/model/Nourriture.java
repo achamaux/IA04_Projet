@@ -2,7 +2,7 @@ package ia04.model;
 
 import sim.engine.SimState;
 
-public class Nourriture extends MySteppable { 
+public class Nourriture extends Element { 
 
 	
 	private static final long serialVersionUID = -3233964416056133588L;

@@ -35,7 +35,7 @@ public class Monstre extends Personnage{
 		if (_t ==Type.KRAKEN) {
 			t = Type.KRAKEN;
 			attaque = ATTAQUE;
-			vie = VIE*2;
+			vie = VIE;
 			distancePerception = DIST_PERCEPTION*2;
 			maxDeplacement = MAX_DEP;
 			
@@ -43,7 +43,7 @@ public class Monstre extends Personnage{
 		else {
 			t = Type.TAUREAU;
 			attaque = ATTAQUE/2;
-			vie = VIE;
+			vie = VIE/2;
 			distancePerception = DIST_PERCEPTION;
 			maxDeplacement = MAX_DEP*2;
 		}
@@ -74,13 +74,17 @@ public class Monstre extends Personnage{
 					System.out.println("ennemi � port�e, je le tape ou je fuis");
 					//Un monstre n'attaque que les contenders
 					if (closestEnemy.getClass() == Contender.class) attack(closestEnemy, 0);
+					else MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, maxDeplacement, beings, 0);
+
 				}
 			} else {
-				MoveTowards(Beings.GRID_SIZE / 2, Beings.GRID_SIZE / 2, maxDeplacement, beings, 0);
+				MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, maxDeplacement, beings, 0);
 				roundDone = true;
 				}
 				}
 			}
+	
+	
 	// retourne l'objet Map de la case
 	public Map getMap(int x, int y) {
 		Bag b = beings.yard.getObjectsAtLocation(x, y);

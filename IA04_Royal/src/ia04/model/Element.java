@@ -4,7 +4,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
 
-public abstract class MySteppable implements Steppable {
+public abstract class Element implements Steppable {
 
 	private static final long serialVersionUID = -8776806986381983043L;
 	
@@ -20,7 +20,7 @@ public abstract class MySteppable implements Steppable {
 		stoppable.stop();
 	}
 
-	public MySteppable(int x, int y) {
+	public Element(int x, int y) {
 		super();
 		this.x = x;
 		this.y = y;
