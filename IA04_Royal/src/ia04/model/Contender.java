@@ -59,7 +59,8 @@ public class Contender extends Personnage {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
-		if (vie <= 0){
+		Map currentMap = getMap(x,y);
+		if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
 			meurt(beings);
 		}
 		else {
@@ -70,7 +71,7 @@ public class Contender extends Personnage {
 			isTrapped(x,y);
 			
 			/****************Récupération des infos de la map*****************/
-			Map currentMap = getMap(x,y);
+			
 			getEffectFromMap(currentMap);
 			
 			/****************Recherche soin prioritaire*****************/

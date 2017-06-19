@@ -1,5 +1,6 @@
 package ia04.model;
 
+import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
 
@@ -23,9 +24,18 @@ public abstract class Personnage extends MySteppable {
 		this.distancePerception = distancePerception;
 	}
 	
+	public Map getMap(int x, int y)
+	{
+		//CEtte méthode va être override par les enfants
+		return null;
+	}
 	// se d�place de dist vers la case (x2,y2)
 	public void MoveTowards(int x2, int y2, int dist, Beings beings, int energieDeplacement) {
 		System.out.println("Currently at (" + x + "," + y + ")");
+		if(getMap(x2,y2).z.equals(Zone.EAU)){
+			System.out.println("On ne va pas dans l'eau!");
+			return;
+		}
 		System.out.println("moving towards (" + x2 + "," + y2 + ")");
 		int i, dx, dy;
 		for (i = 0; i < dist; i++) {

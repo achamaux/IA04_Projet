@@ -2,7 +2,9 @@ package ia04.model;
 
 import java.util.Random;
 
+import ia04.model.Map.Zone;
 import sim.engine.SimState;
+import sim.util.Bag;
 
 public class Monstre extends Personnage{
 
@@ -79,5 +81,17 @@ public class Monstre extends Personnage{
 				}
 				}
 			}
-		
+	// retourne l'objet Map de la case
+	public Map getMap(int x, int y) {
+		Bag b = beings.yard.getObjectsAtLocation(x, y);
+		for (Object o : b) {
+			if (o instanceof Map) {
+				Map m = (Map) o;
+				return m;
+			}
+		}
+		return null;
 	}
+}
+
+
