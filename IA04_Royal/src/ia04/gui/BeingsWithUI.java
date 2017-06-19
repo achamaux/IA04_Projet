@@ -60,6 +60,18 @@ public class BeingsWithUI extends GUIState {
 		super.start();
 		setupPortrayals();
 	}
+	
+	
+	public Object getSimulationInspectedObject() {
+		return state;
+	}
+
+	public Inspector getInspector() {
+		Inspector i = super.getInspector();
+		i.setVolatile(true);
+		return i;
+	}
+
 	public void load(SimState state) {
 
 	}

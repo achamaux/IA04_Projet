@@ -62,6 +62,7 @@ public class Contender extends Personnage {
 		Map currentMap = getMap(x,y);
 		if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
 			meurt(beings);
+			beings.livingContenders--;
 		}
 		else {
 			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
@@ -261,6 +262,7 @@ public class Contender extends Personnage {
 		Zone z = m.z;
 		if(z.equals(Zone.EAU)){
 			meurt(beings);
+			beings.livingContenders--;
 			System.out.println("Je meurs car je suis dans l'eau, glou glou");}
 		else if (z.equals(Zone.JUNGLE))
 			distancePerception = DIST_PERCEPTION_JUNGLE;
