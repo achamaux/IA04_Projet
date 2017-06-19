@@ -11,7 +11,7 @@ public class Monstre extends Personnage{
 	public static int DIST_PERCEPTION = 10;
 	public static int MAX_DEP = 2;
 	public static int ATTAQUE = 10;
-	public static int VIE = 30;
+	public static int VIE = 25;
 	public static int MAX_ENERGIE = 50;
 	
 	public enum Type {KRAKEN, TAUREAU};
@@ -43,7 +43,7 @@ public class Monstre extends Personnage{
 		else {
 			t = Type.TAUREAU;
 			attaque = ATTAQUE/2;
-			vie = VIE/2;
+			vie = (VIE*3)/5;
 			distancePerception = DIST_PERCEPTION;
 			maxDeplacement = MAX_DEP*2;
 		}
@@ -66,7 +66,7 @@ public class Monstre extends Personnage{
 			
 			/****************Traitement ennemi*****************/
 			Personnage closestEnemy = getClosestEnemy(beings);
-			if (closestEnemy != null) {
+			if ((closestEnemy != null) && (closestEnemy.getClass()!=Monstre.class)){
 				if (!isAtRange(closestEnemy, 1)) {
 					MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, 0);
 					roundDone = true;

@@ -186,6 +186,7 @@ public class Contender extends Personnage {
 			System.out.println("I'm getting better !");
 		}
 		energie--;
+		if (energie < 0) energie = 0;
 	}
 
 	private Soin getClosestSoin() {
@@ -308,6 +309,7 @@ public class Contender extends Personnage {
 			System.out.println("Food taken ! Food left :" + nourriture + " ; energy = " + energie);
 		}
 		energie--;
+		if (energie < 0) energie = 0;
 	}
 
 	public boolean takeWeapon(Arme weapon){
@@ -323,6 +325,7 @@ public class Contender extends Personnage {
 			arme = weapon;
 			attaque += arme.getpower();
 			energie --;
+			if (energie < 0) energie = 0;
 			return true;
 		}
 		return false;

@@ -1,7 +1,5 @@
 package ia04.model;
 
-import javax.sound.sampled.AudioFileFormat.Type;
-
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
@@ -72,11 +70,11 @@ public abstract class Personnage extends Element {
 		    }
 		}
 
-		if (energie > 0)
-			energie = energie - dist * energieDeplacement;
-
-		else
+		energie = energie - dist * energieDeplacement;
+		if (energie <= 0) {
+			energie = 0;
 			vie--;
+		}
 		
 		System.out.println("Now at " + x + "," + y);
 		}
@@ -133,6 +131,7 @@ public abstract class Personnage extends Element {
 		closestEnemy.vie -= attaque;
 		if (vie < 0) vie = 0;
 		energie -= ENERGIE_PAR_ATT;
+		if (energie < 0) energie = 0;
 		//Si un contender tue un monstre, on augmente son attaque. Il a le droit à une belle récompense (boost)
 		if ((closestEnemy.vie < 0) && (closestEnemy.getClass() == Monstre.class)){
 			attaque += 15;

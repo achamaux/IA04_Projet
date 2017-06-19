@@ -209,7 +209,7 @@ public class BeingsWithUI extends GUIState {
 			@Override
 			public String getLabel(Object o, DrawInfo2D info){
 				Monstre i = (Monstre)o;
-				String label = "(  E = " + i.energie + " V = " + i.vie + " A= " + i.attaque + " )";				
+				String label = "( V = " + i.vie + " A= " + i.attaque + " )";				
 				return label;
 			}
 		};
@@ -264,13 +264,6 @@ public class BeingsWithUI extends GUIState {
 		ImageIcon icon = new ImageIcon("res/icon/heal.png");
 		ImagePortrayal2D r = new ImagePortrayal2D(icon);
 		return r;
-	}
-	
-	public Object getSimulationInspectedObject() { return state; }
-	public Inspector getInspector() {
-		Inspector i = super.getInspector();
-		i.setVolatile(true);
-		return i;
 	}
 	
 }
