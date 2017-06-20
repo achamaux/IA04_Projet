@@ -15,8 +15,8 @@ public class Monstre extends Personnage {
 	public static int VIE = 25;
 	public static int MAX_ENERGIE = 50;
 	
-	public static int ANTRE_X;
-	public static int ANTRE_Y;
+	public int ANTRE_X;
+	public int ANTRE_Y;
 
 	public enum Type {
 		KRAKEN, TAUREAU
@@ -56,8 +56,8 @@ public class Monstre extends Personnage {
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = distancePerception;
-		ANTRE_X = x;
-		ANTRE_Y = y;
+		this.ANTRE_X = x;
+		this.ANTRE_Y = y;
 	}
 
 	@Override
