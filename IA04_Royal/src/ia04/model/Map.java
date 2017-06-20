@@ -18,7 +18,7 @@ import sim.engine.SimState;
 public class Map extends Element { 
 
 	private static final long serialVersionUID = -3233964416056145588L;
-	public enum Zone {EAU, JUNGLE, DESERT, PLAINE};
+	public enum Zone {EAU, JUNGLE, DESERT, PLAINE, ANTRE};
 	public Zone z;
 
 	public Map(int x, int y) {

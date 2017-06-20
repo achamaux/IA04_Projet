@@ -39,6 +39,7 @@ public class BeingsWithUI extends GUIState {
 	Color jungleColor = new Color(69, 99, 40);
 	Color plaineColor = new Color(122,166,71);
 	Color desertColor = new Color(246, 226, 155);
+	Color antreColor = new Color(70,70,70);
 	SparseGridPortrayal2D yardPortrayal =
 			new SparseGridPortrayal2D();
 	public BeingsWithUI(SimState state) {
@@ -138,6 +139,9 @@ public class BeingsWithUI extends GUIState {
 					break;
 				case DESERT:
 					this.paint=desertColor;
+					break;
+				case ANTRE:
+					this.paint=antreColor;
 					break;
 				}
 				

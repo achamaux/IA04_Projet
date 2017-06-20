@@ -2,6 +2,7 @@ package ia04.model;
 
 import java.util.Random;
 
+import ia04.gui.BeingsWithUI;
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
@@ -82,7 +83,7 @@ public class Monstre extends Personnage {
 						if (closestEnemy.getClass() == Contender.class)
 							attack(closestEnemy, 0);
 						else
-							MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, maxDeplacement, beings, 0);
+							MoveTowards(ANTRE_X,ANTRE_X, maxDeplacement, beings, 0);
 
 					}
 				} else {
