@@ -79,7 +79,7 @@ public class Monstre extends Personnage {
 						System.out.println(t+" a trouv� une cible en "+closestEnemy.x+","+closestEnemy.y);
 						roundDone = true;
 					} else {
-						System.out.println("ennemi a portee, je le tape ou je fuis");
+						System.out.println("ennemi a portee");
 						// Un monstre n'attaque que les contenders
 						if (closestEnemy.getClass() == Contender.class)
 							attack(closestEnemy, 0);

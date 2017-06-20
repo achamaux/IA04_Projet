@@ -91,31 +91,6 @@ public class BeingsWithUI extends GUIState {
 		display.attach( yardPortrayal, "Yard" );
 	}
 
-	/*private OvalPortrayal2D getInsectePortrayal() {
-		OvalPortrayal2D r = new OvalPortrayal2D(1.2){
-
-			private static final long serialVersionUID = -9018920390744116027L;
-
-			@Override
-			public void draw(Object o, Graphics2D g, DrawInfo2D info){
-				Insecte i = (Insecte)o;
-				if(i.distancePerception>=0.6*Insecte.NBRE_POINTS)
-					this.paint=Color.RED;
-				else if(i.chargeMax>=0.6*Insecte.NBRE_POINTS)
-					this.paint=Color.BLUE;
-				else if(i.distanceDeplacement>=0.6*Insecte.NBRE_POINTS)
-					this.paint=Color.BLACK;
-				else if(i.distancePerception==0.5*Insecte.NBRE_POINTS)
-					this.paint=Color.white;
-				else this.paint=Color.MAGENTA;
-				super.draw(o,g,info);
-			}
-		};
-		
-		r.paint = Color.RED;
-		r.filled = true;
-		return r;
-	}*/
 
 
 	private RectanglePortrayal2D getMapPortrayal() {

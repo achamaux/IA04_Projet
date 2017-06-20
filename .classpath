@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="IA04_Royal/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/bsh-2.0b4.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/itext-1.2.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/jcommon-1.0.21.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/jfreechart-1.0.17.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/jmf.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/mason.18.jar"/>
-	<classpathentry kind="lib" path="/home/paush/Documents/COURS/IA04/TDMASON/portfolio.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/itext-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/jcommon-1.0.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/jfreechart-1.0.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/jmf.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/mason.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Steve/Documents/portfolio.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
