@@ -33,12 +33,13 @@ public abstract class Personnage extends Element {
 
 	// se d�place de dist vers la case (x2,y2)
 	public void MoveTowards(int x2, int y2, int dist, Beings beings, int energieDeplacement) {
-		System.out.println("Currently at (" + x + "," + y + ")");
+		String log="";
+		log+="***Currently at (" + x + "," + y + ")";
+		log+="\nWant to go to "+x2+","+y2;
 		if (getMap(x2, y2).z.equals(Zone.EAU)) {
 			System.out.println("On ne va pas dans l'eau!");
 			return;
 		}
-		System.out.println("moving towards (" + x2 + "," + y2 + ")");
 		int i, dx, dy;
 		boolean g_ok = true, d_ok = true, b_ok = true, h_ok = true;
 		for (i = 0; i < dist; i++) {
@@ -51,7 +52,8 @@ public abstract class Personnage extends Element {
 			b_ok = isOk(x, y - 1);
 			h_ok = isOk(x, y + 1);
 
-			if (dx >= dy) {
+			if (Math.abs(dx) >= Math.abs(dy)) {
+				log+="\nx prioritaire dx="+dx+", dy="+dy;
 				/**** x prioritaire ****/
 				if ((g_ok) || (d_ok)) {
 					if ((dx > 0) && (d_ok)) {
@@ -76,6 +78,7 @@ public abstract class Personnage extends Element {
 				}
 				/*** fin x prio ***/
 			} else {
+				log+="\ny prioritaire";
 				/*** y prioritaire ***/
 				if ((b_ok) || (h_ok)) {
 					if ((dy > 0) && (h_ok)) {
@@ -100,15 +103,19 @@ public abstract class Personnage extends Element {
 				}
 				/*** fin y prio ***/
 			}
+			
+			
 		}
-
+		log+="\nNow at "+x+","+y+"***";
+		System.out.println(log);
+		
 		energie = energie - dist * energieDeplacement;
 		if (energie <= 0) {
 			energie = 0;
 			vie--;
 		}
 
-		System.out.println("Now at " + x + "," + y);
+		//System.out.println("Now at " + x + "," + y);
 	}
 
 	public boolean isOk(int x, int y) {
