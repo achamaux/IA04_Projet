@@ -326,6 +326,7 @@ public class Contender extends Personnage {
 			}
 			arme = weapon;
 			attaque += arme.getpower();
+			arme.meurt(beings);
 			energie --;
 			if (energie < 0) energie = 0;
 			return true;
