@@ -28,8 +28,6 @@ public class Monstre extends Personnage {
 
 	public Monstre(int x, int y, int attaque, int vie, int energie, int distancePerception) {
 		super(x, y, vie, attaque, energie, distancePerception);
-		ANTRE_X = x;
-		ANTRE_Y = y;
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = energie;
@@ -58,6 +56,8 @@ public class Monstre extends Personnage {
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = distancePerception;
+		ANTRE_X = x;
+		ANTRE_Y = y;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class Monstre extends Personnage {
 				if ((closestEnemy != null) && (closestEnemy.getClass() != Monstre.class)) {
 					if (!isAtRange(closestEnemy, 1)) {
 						MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, 0);
-						System.out.println(t+" a trouvé une cible en "+closestEnemy.x+","+closestEnemy.y);
+						System.out.println(t+" a trouvï¿½ une cible en "+closestEnemy.x+","+closestEnemy.y);
 						roundDone = true;
 					} else {
 						System.out.println("ennemi a portee, je le tape ou je fuis");
@@ -84,13 +84,13 @@ public class Monstre extends Personnage {
 						if (closestEnemy.getClass() == Contender.class)
 							attack(closestEnemy, 0);
 						else{
-							System.out.println(t+" retourne à son antre en "+ANTRE_X+","+ANTRE_Y);
+							System.out.println(t+" retourne ï¿½ son antre en "+ANTRE_X+","+ANTRE_Y);
 							MoveTowards(ANTRE_X,ANTRE_Y, maxDeplacement, beings, 0);
 						}
 
 					}
 				} else {
-					System.out.println(t+" retourne à son antre en "+ANTRE_X+","+ANTRE_Y);
+					System.out.println(t+" retourne ï¿½ son antre en "+ANTRE_X+","+ANTRE_Y);
 					MoveTowards(ANTRE_X, ANTRE_Y, maxDeplacement, beings, 0);
 					roundDone = true;
 				}

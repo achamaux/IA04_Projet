@@ -54,8 +54,8 @@ public class Beings extends SimState {
 		yard.clear();
 		initMat();
 		addAgentsMap();
-		addAgentsContender();
 		addAgentsMonstres();
+		addAgentsContender();
 		addAgentsNourriture();
 		addAgentsPiege();
 		addAgentsArme();
@@ -273,7 +273,7 @@ public class Beings extends SimState {
 	}
 
 	private void addAgentsMonstres() {
-		for (int i = 0; i < NUM_MONSTRE; i++) {
+		/*for (int i = 0; i < NUM_MONSTRE; i++) {
 			Map m = getNewLocation();
 			while (((yard.numObjectsAtLocation(m.x, m.y)) > 1) || (m.z == Zone.EAU)) {
 				m = getNewLocation();
@@ -282,7 +282,9 @@ public class Beings extends SimState {
 				addAgentMonstre(m.x, m.y, Type.KRAKEN);
 			else
 				addAgentMonstre(m.x, m.y, Type.TAUREAU);
-		}
+		}*/
+		addAgentMonstre(100, 37, Type.TAUREAU);
+		addAgentMonstre(35, 37, Type.KRAKEN);
 	}
 
 	public void addAgentMonstre(int x, int y, Type t) {
