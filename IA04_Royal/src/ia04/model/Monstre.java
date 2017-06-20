@@ -13,6 +13,9 @@ public class Monstre extends Personnage {
 	public static int ATTAQUE = 10;
 	public static int VIE = 25;
 	public static int MAX_ENERGIE = 50;
+	
+	public static int ANTRE_X;
+	public static int ANTRE_Y;
 
 	public enum Type {
 		KRAKEN, TAUREAU
@@ -24,6 +27,8 @@ public class Monstre extends Personnage {
 
 	public Monstre(int x, int y, int attaque, int vie, int energie, int distancePerception) {
 		super(x, y, vie, attaque, energie, distancePerception);
+		ANTRE_X = x;
+		ANTRE_Y = y;
 		this.vie = vie;
 		this.attaque = attaque;
 		this.energie = energie;
@@ -81,7 +86,7 @@ public class Monstre extends Personnage {
 
 					}
 				} else {
-					MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, maxDeplacement, beings, 0);
+					MoveTowards(ANTRE_X, ANTRE_Y, maxDeplacement, beings, 0);
 					roundDone = true;
 				}
 			}
