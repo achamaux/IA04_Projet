@@ -9,7 +9,7 @@ public class Arme extends Element {
 	
 	private static final long serialVersionUID = 7180337908965110967L;
 	
-	static public int MAX_PUISSANCE=5;
+	static public int MAX_PUISSANCE=15;
 	static public int MIN_PUISSANCE=1;
 	
 	public int puissance;
