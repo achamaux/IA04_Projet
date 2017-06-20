@@ -15,7 +15,6 @@ public abstract class Personnage extends Element {
 	
 	public int personalMaxVie;
 	public int personalNativeAttaque;
-	public int personalMaxEnergie;
 	
 	@Override
 	public abstract void step(SimState arg0);

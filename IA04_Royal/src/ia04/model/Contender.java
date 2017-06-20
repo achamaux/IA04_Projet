@@ -53,7 +53,6 @@ public class Contender extends Personnage {
 		
 		this.personalMaxVie = vie;
 		this.personalNativeAttaque = attaque;
-		this.personalMaxEnergie = energie;
 		arme = null;
 		Arme a = new Arme(x, y, 1);
 		takeWeapon(a);
@@ -247,8 +246,6 @@ public class Contender extends Personnage {
 		while (energie < MAX_ENERGIE - ENERGIE_PAR_BOUFFE && nourriture > 0) {
 			nourriture--;
 			energie += ENERGIE_PAR_BOUFFE;
-			if(energie > personalMaxEnergie)
-				energie = personalMaxEnergie;
 			System.out.println("Food eaten ! Food left :" + nourriture + " ; enery = " + energie);
 		}
 	}

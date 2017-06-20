@@ -24,7 +24,6 @@ public class DataTracker implements Steppable{
 		beings.averageFoodOfContender = numberOfFood()/ (float) beings.livingContenders;
 		beings.averagePersMaxVie = numberOfPersMaxVie()/ (float) beings.livingContenders;
 		beings.averagePersNativeAttaque = numberOfPersNativeAttaque()/ (float) beings.livingContenders;
-		beings.averagePersMaxEnergie = numberOfPersMaxEnergie()/ (float) beings.livingContenders;
 	}
 	
 	public int numberOfPV(){
@@ -106,18 +105,6 @@ public class DataTracker implements Steppable{
 			if (o instanceof Contender) {
 				Contender c = (Contender) o;
 				n+= c.personalNativeAttaque;
-			}
-		}
-		return n;
-	}
-	
-	public int numberOfPersMaxEnergie(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.personalMaxEnergie;
 			}
 		}
 		return n;
