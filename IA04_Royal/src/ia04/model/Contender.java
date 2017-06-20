@@ -50,6 +50,10 @@ public class Contender extends Personnage {
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = DIST_PERCEPTION;
+		
+		this.personalMaxVie = vie;
+		this.personalNativeAttaque = attaque;
+		this.personalMaxEnergie = energie;
 		arme = null;
 		Arme a = new Arme(x, y, true);
 		takeWeapon(a);
@@ -59,11 +63,7 @@ public class Contender extends Personnage {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
-		beings.averageLifeOfContender = numberOfPV()/ (float) beings.livingContenders;
-		beings.averageAttackOfContender = numberOfAttack()/ (float) beings.livingContenders;
-		beings.averageEnergyOfContender = numberOfEnergy()/ (float) beings.livingContenders;
-		beings.averagePerceptionOfContender = numberOfPerception()/ (float) beings.livingContenders;
-		beings.averageFoodOfContender = numberOfFood()/ (float) beings.livingContenders;
+		
 		
 		if (beings.livingContenders<=1){
 			//il se passe rien
@@ -188,7 +188,7 @@ public class Contender extends Personnage {
 	}
 
 	private void seSoigner(Soin soin) {
-		while (soin.quantite > 0 && vie < MAX_VIE) {
+		while (soin.quantite > 0 && vie < personalMaxVie) {
 			vie++;
 			soin.quantite--;
 			System.out.println("I'm getting better !");
@@ -247,6 +247,8 @@ public class Contender extends Personnage {
 		while (energie < MAX_ENERGIE - ENERGIE_PAR_BOUFFE && nourriture > 0) {
 			nourriture--;
 			energie += ENERGIE_PAR_BOUFFE;
+			if(energie > personalMaxEnergie)
+				energie = personalMaxEnergie;
 			System.out.println("Food eaten ! Food left :" + nourriture + " ; enery = " + energie);
 		}
 	}
@@ -356,65 +358,7 @@ public class Contender extends Personnage {
 	}
 
 
-	public int numberOfPV(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.vie;
-			}
-		}
-		return n;
-	}
 	
-	public int numberOfAttack(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.attaque;
-			}
-		}
-		return n;
-	}
-	
-	public int numberOfEnergy(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.energie;
-			}
-		}
-		return n;
-	}
-	
-	public int numberOfPerception(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.distancePerception;
-			}
-		}
-		return n;
-	}
-	
-	public int numberOfFood(){
-		Bag b = beings.yard.getAllObjects();
-		int n = 0;
-		for (Object o : b) {
-			if (o instanceof Contender) {
-				Contender c = (Contender) o;
-				n+= c.nourriture;
-			}
-		}
-		return n;
-	}
 	
 	// trouve un ennemi � une distance range
 	@SuppressWarnings("deprecation")

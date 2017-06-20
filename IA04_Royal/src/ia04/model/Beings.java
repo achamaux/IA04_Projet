@@ -34,6 +34,11 @@ public class Beings extends SimState {
 	public float averageEnergyOfContender = 0;
 	public float averagePerceptionOfContender = 0;
 	public float averageFoodOfContender = 0;
+	public float averagePersMaxVie = 0;
+	public float averagePersNativeAttaque = 0;
+	public float averagePersMaxEnergie = 0;
+	
+	DataTracker dataTracker;
 
 	static public int[][] mapMat = null;
 	private String mapFile = "res/map/map1";
@@ -55,6 +60,20 @@ public class Beings extends SimState {
 		addAgentsPiege();
 		addAgentsArme();
 		addAgentsHeal();
+		
+		dataTracker = new DataTracker(this);
+		Stoppable stoppable = schedule.scheduleRepeating(dataTracker);
+		dataTracker.stoppable = stoppable;
+		
+		livingContenders = NUM_CONTENDERS;
+		averageLifeOfContender = 0;
+		averageAttackOfContender = 0;
+		averageEnergyOfContender = 0;
+		averagePerceptionOfContender = 0;
+		averageFoodOfContender = 0;
+		averagePersMaxVie = 0;
+		averagePersNativeAttaque = 0;
+		averagePersMaxEnergie = 0;
 	}
 
 	private void initMat() {
@@ -308,4 +327,17 @@ public class Beings extends SimState {
 	public float getAverageFoodOfContender() {
 		return averageFoodOfContender;
 	}
+
+	public float getAveragePersMaxVie() {
+		return averagePersMaxVie;
+	}
+
+	public float getAveragePersNativeAttaque() {
+		return averagePersNativeAttaque;
+	}
+
+	public float getAveragePersMaxEnergie() {
+		return averagePersMaxEnergie;
+	}
+	
 }
