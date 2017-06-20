@@ -55,7 +55,7 @@ public class Contender extends Personnage {
 		this.personalNativeAttaque = attaque;
 		this.personalMaxEnergie = energie;
 		arme = null;
-		Arme a = new Arme(x, y, true);
+		Arme a = new Arme(x, y, 1);
 		takeWeapon(a);
 	}
 

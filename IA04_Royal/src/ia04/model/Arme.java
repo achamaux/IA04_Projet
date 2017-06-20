@@ -22,9 +22,9 @@ public class Arme extends Element {
 		puissance = rand.nextInt(MAX_PUISSANCE - MIN_PUISSANCE + 1) + MIN_PUISSANCE;
 	}
 	
-	public Arme(int x, int y, boolean init) {
+	public Arme(int x, int y, int p) {
 		super(x,y);
-		puissance = 1;
+		puissance = p;
 	}
 
 
