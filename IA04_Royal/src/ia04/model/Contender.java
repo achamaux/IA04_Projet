@@ -59,6 +59,12 @@ public class Contender extends Personnage {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
+		beings.averageLifeOfContender = numberOfPV()/beings.livingContenders;
+		beings.averageAttackOfContender = numberOfAttack()/beings.livingContenders;
+		beings.averageEnergyOfContender = numberOfEnergy()/beings.livingContenders;
+		beings.averagePerceptionOfContender = numberOfPerception()/beings.livingContenders;
+		beings.averageFoodOfContender = numberOfFood()/beings.livingContenders;
+		
 		Map currentMap = getMap(x,y);
 		if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
 			meurt(beings);
@@ -348,6 +354,66 @@ public class Contender extends Personnage {
 	}
 
 
+	public int numberOfPV(){
+		Bag b = beings.yard.getAllObjects();
+		int n = 0;
+		for (Object o : b) {
+			if (o instanceof Contender) {
+				Contender c = (Contender) o;
+				n+= c.vie;
+			}
+		}
+		return n;
+	}
+	
+	public int numberOfAttack(){
+		Bag b = beings.yard.getAllObjects();
+		int n = 0;
+		for (Object o : b) {
+			if (o instanceof Contender) {
+				Contender c = (Contender) o;
+				n+= c.attaque;
+			}
+		}
+		return n;
+	}
+	
+	public int numberOfEnergy(){
+		Bag b = beings.yard.getAllObjects();
+		int n = 0;
+		for (Object o : b) {
+			if (o instanceof Contender) {
+				Contender c = (Contender) o;
+				n+= c.energie;
+			}
+		}
+		return n;
+	}
+	
+	public int numberOfPerception(){
+		Bag b = beings.yard.getAllObjects();
+		int n = 0;
+		for (Object o : b) {
+			if (o instanceof Contender) {
+				Contender c = (Contender) o;
+				n+= c.distancePerception;
+			}
+		}
+		return n;
+	}
+	
+	public int numberOfFood(){
+		Bag b = beings.yard.getAllObjects();
+		int n = 0;
+		for (Object o : b) {
+			if (o instanceof Contender) {
+				Contender c = (Contender) o;
+				n+= c.nourriture;
+			}
+		}
+		return n;
+	}
+	
 	// trouve un ennemi � une distance range
 	@SuppressWarnings("deprecation")
 	public Arme findWeaponAtRange(int range) {

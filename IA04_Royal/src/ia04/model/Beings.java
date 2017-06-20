@@ -18,10 +18,10 @@ public class Beings extends SimState {
 
 	public static int GRID_SIZE = 75;
 	public static int NUM_FOOD_CELL = 80;
-	public static int NUM_PIEGE = 50;
+	public static int NUM_PIEGE = 40;
 	public static int NUM_MONSTRE = 2;
 	public static int NUM_CONTENDERS = 50;
-	public static int NUM_HEAL = 50;
+	public static int NUM_HEAL = 70;
 	public static int NUM_ARME = 20;
 	public static int MIN_VIE = 10;
 	public static int MAX_VIE = 20;
@@ -29,6 +29,11 @@ public class Beings extends SimState {
 
 	//Variables pour les graphs
 	public int livingContenders = NUM_CONTENDERS;
+	public int averageLifeOfContender = 0;
+	public int averageAttackOfContender = 0;
+	public int averageEnergyOfContender = 0;
+	public int averagePerceptionOfContender = 0;
+	public int averageFoodOfContender = 0;
 
 	static public int[][] mapMat = null;
 	private String mapFile = "res/map/map1";
@@ -231,7 +236,7 @@ public class Beings extends SimState {
 			}
 			addAgentContender(m.x, m.y);
 			//livingContenders++; 
-				//pas l'air de marche comme ça, on la de double de contenders
+				//pas l'air de marche comme ï¿½a, on la de double de contenders
 		}
 	}
 
@@ -282,5 +287,25 @@ public class Beings extends SimState {
 
 	public int getLivingContenters() {
 		return livingContenders;
+	}
+	
+	public int getAverageLifeOfContender() {
+		return averageLifeOfContender;
+	}
+	
+	public int getAverageAttackOfContender() {
+		return averageAttackOfContender;
+	}
+	
+	public int getAverageEnergyOfContender() {
+		return averageEnergyOfContender;
+	}
+	
+	public int getAveragePerceptionOfContender() {
+		return averagePerceptionOfContender;
+	}
+	
+	public int getAverageFoodOfContender() {
+		return averageFoodOfContender;
 	}
 }

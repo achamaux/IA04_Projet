@@ -1,16 +1,10 @@
 package ia04.gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,30 +12,24 @@ import javax.swing.JFrame;
 
 import ia04.model.Arme;
 import ia04.model.Beings;
-import ia04.model.Insecte;
+import ia04.model.Contender;
 import ia04.model.Map;
-import ia04.model.Map.Zone;
 import ia04.model.Monstre;
 import ia04.model.Monstre.Type;
 import ia04.model.Nourriture;
 import ia04.model.Piege;
 import ia04.model.Soin;
-import ia04.model.Contender;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
-import sim.field.grid.SparseGrid2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
-import sim.portrayal.Portrayal;
-import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.LabelledPortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
-import sim.util.Bag;
 
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
@@ -82,7 +70,6 @@ public class BeingsWithUI extends GUIState {
 		yardPortrayal.setPortrayalForClass(Nourriture.class, getNourriturePortrayal());
 		yardPortrayal.setPortrayalForClass(Piege.class, getPiegePortrayal());
 		yardPortrayal.setPortrayalForClass(Arme.class, getArmePortrayal());
-		//yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayal());
 		yardPortrayal.setPortrayalForClass(Contender.class, getContenderPortrayalLabelled());
 		yardPortrayal.setPortrayalForClass(Monstre.class, getMonstrePortrayalLabelled());
 		yardPortrayal.setPortrayalForClass(Soin.class, getSoinPortrayal());
