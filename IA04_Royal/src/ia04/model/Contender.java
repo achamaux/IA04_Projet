@@ -14,10 +14,10 @@ public class Contender extends Personnage {
 
 	private static final long serialVersionUID = 6893667159868881758L;
 
-	public static int DIST_PERCEPTION = 5;
+	public static int DIST_PERCEPTION = 10;
 	public static int DIST_PERCEPTION_JUNGLE = 2;
 	public static int MAX_DEP = 4;
-	public static int MAX_ENERGIE = 20;
+	public static int MAX_ENERGIE = 50;
 	public static int MIN_VIE = 10;
 	public static int MAX_VIE = 20;
 	public static int MIN_ATTAQUE = 1;
@@ -84,6 +84,15 @@ public class Contender extends Personnage {
 		} else {
 			Map currentMap = getMap(x, y);
 			if (vie <= 0 || currentMap.z.equals(Zone.EAU)) {
+				if(currentMap.z.equals(Zone.EAU)){
+					System.out.println("Contender mort noyé en "+x+","+y);
+				}
+				else if(energie <= 0){
+					System.out.println("Contender mort d'épuisement en "+x+","+y);
+				}
+				else {
+					System.out.println("Contender mort de ses blessures en "+x+","+y);
+				}
 				meurt(beings);
 				beings.livingContenders--;
 			} else {
@@ -146,7 +155,7 @@ public class Contender extends Personnage {
 								roundDone = true;
 							} else {
 								System.out.println("ennemi ï¿½ portï¿½e, je le tape ou je fuis");
-								if (closestEnemy.attaque * 2 > vie) {
+								if (closestEnemy.attaque *2 > vie && attaque<closestEnemy.vie) {
 									escapeFrom(closestEnemy);
 									closestDangerousEnemy = closestEnemy;
 								} else

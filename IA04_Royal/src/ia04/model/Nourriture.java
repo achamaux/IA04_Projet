@@ -7,7 +7,7 @@ public class Nourriture extends Element {
 	
 	private static final long serialVersionUID = -3233964416056133588L;
 	
-	static public int MAX_QUANTITE=5;
+	static public int MAX_QUANTITE=10;
 	public int quantite=MAX_QUANTITE;
 	
 	public Nourriture(int x, int y) {

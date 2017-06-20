@@ -76,17 +76,21 @@ public class Monstre extends Personnage {
 				if ((closestEnemy != null) && (closestEnemy.getClass() != Monstre.class)) {
 					if (!isAtRange(closestEnemy, 1)) {
 						MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, 0);
+						System.out.println(t+" a trouvé une cible en "+closestEnemy.x+","+closestEnemy.y);
 						roundDone = true;
 					} else {
-						System.out.println("ennemi ï¿½ portï¿½e, je le tape ou je fuis");
+						System.out.println("ennemi a portee, je le tape ou je fuis");
 						// Un monstre n'attaque que les contenders
 						if (closestEnemy.getClass() == Contender.class)
 							attack(closestEnemy, 0);
-						else
-							MoveTowards(ANTRE_X,ANTRE_X, maxDeplacement, beings, 0);
+						else{
+							System.out.println(t+" retourne à son antre en "+ANTRE_X+","+ANTRE_Y);
+							MoveTowards(ANTRE_X,ANTRE_Y, maxDeplacement, beings, 0);
+						}
 
 					}
 				} else {
+					System.out.println(t+" retourne à son antre en "+ANTRE_X+","+ANTRE_Y);
 					MoveTowards(ANTRE_X, ANTRE_Y, maxDeplacement, beings, 0);
 					roundDone = true;
 				}
