@@ -35,6 +35,7 @@ public class Contender extends Personnage {
 	public int energieDeplacement = ENERGIE_PAR_DEP;
 	public int nourriture = 0;
 	public Arme arme;
+	private Object closestDangerousEnemy = null;
 
 	private Beings beings;
 
@@ -74,12 +75,11 @@ public class Contender extends Personnage {
 				endMessageShown = true;
 				// on affiche le gagnant
 				ImageIcon icon = new ImageIcon("res/icon/victory.png");
-				JOptionPane.showMessageDialog(
-						BeingsWithUI.displayFrame, "On a un gagnant ! \n" + "Vie initiale : " + personalMaxVie +"\n"+ "Vie actuelle :" + vie 
-						+"\n"+ "Attaque initiale :" + personalNativeAttaque +"\n"+ "Attaque actuelle :" + attaque +"\n"+ "Energie actuelle :" + energie,
-					    "Message de fin",
-					    JOptionPane.INFORMATION_MESSAGE,
-					    icon);
+				JOptionPane.showMessageDialog(BeingsWithUI.displayFrame,
+						"On a un gagnant ! \n" + "Vie initiale : " + personalMaxVie + "\n" + "Vie actuelle :" + vie
+								+ "\n" + "Attaque initiale :" + personalNativeAttaque + "\n" + "Attaque actuelle :"
+								+ attaque + "\n" + "Energie actuelle :" + energie,
+						"Message de fin", JOptionPane.INFORMATION_MESSAGE, icon);
 			}
 		} else {
 			Map currentMap = getMap(x, y);
@@ -138,15 +138,20 @@ public class Contender extends Personnage {
 					/**************** Traitement ennemi *****************/
 					Personnage closestEnemy = getClosestEnemy(beings);
 					if (closestEnemy != null) {
-						if (!isAtRange(closestEnemy, 1)) {
-							MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, energieDeplacement);
-							roundDone = true;
+						if (closestEnemy == closestDangerousEnemy) {
+							escapeFrom(closestEnemy);
 						} else {
-							System.out.println("ennemi ï¿½ portï¿½e, je le tape ou je fuis");
-							if (closestEnemy.attaque * 2 > vie)
-								escapeFrom(closestEnemy);
-							else
-								attack(closestEnemy, ENERGIE_PAR_ATT);
+							if (!isAtRange(closestEnemy, 1)) {
+								MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, energieDeplacement);
+								roundDone = true;
+							} else {
+								System.out.println("ennemi ï¿½ portï¿½e, je le tape ou je fuis");
+								if (closestEnemy.attaque * 2 > vie) {
+									escapeFrom(closestEnemy);
+									closestDangerousEnemy = closestEnemy;
+								} else
+									attack(closestEnemy, ENERGIE_PAR_ATT);
+							}
 						}
 					} else {
 						// pas d'ennemis trouvï¿½, marche vers lÃ  oÃ¹ il y a
@@ -200,6 +205,7 @@ public class Contender extends Personnage {
 			soin.quantite--;
 			System.out.println("I'm getting better !");
 		}
+		closestDangerousEnemy = null;//on s'est soigné, on devrait être capable de se taper
 		energie--;
 		if (energie < 0)
 			energie = 0;

@@ -31,7 +31,8 @@ public class Map extends Element {
 		case 1: z = Zone.PLAINE; break;
 		case 2: z = Zone.JUNGLE; break;
 		case 3: z = Zone.DESERT; break;
-		}
+		case 4: z = Zone.ANTRE; break;
+		}	
 		
 		
 	}

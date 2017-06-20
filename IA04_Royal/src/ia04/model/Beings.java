@@ -20,7 +20,7 @@ public class Beings extends SimState {
 	public static int NUM_FOOD_CELL = 80;
 	public static int NUM_PIEGE = 40;
 	public static int NUM_MONSTRE = 2;
-	public static int NUM_CONTENDERS = 50;
+	public static int NUM_CONTENDERS = 10;
 	public static int NUM_HEAL = 70;
 	public static int NUM_ARME = 20;
 	public static int MIN_VIE = 10;
