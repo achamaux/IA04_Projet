@@ -74,8 +74,12 @@ public class Contender extends Personnage {
 				endMessageShown = true;
 				// on affiche le gagnant
 				ImageIcon icon = new ImageIcon("res/icon/victory.png");
-				JOptionPane.showMessageDialog(BeingsWithUI.displayFrame, "On a un gagnant !", "Message de fin",
-						JOptionPane.INFORMATION_MESSAGE, icon);
+				JOptionPane.showMessageDialog(
+						BeingsWithUI.displayFrame, "On a un gagnant ! \n" + "Vie initiale : " + personalMaxVie +"\n"+ "Vie actuelle :" + vie 
+						+"\n"+ "Attaque initiale :" + personalNativeAttaque +"\n"+ "Attaque actuelle :" + attaque +"\n"+ "Energie actuelle :" + energie,
+					    "Message de fin",
+					    JOptionPane.INFORMATION_MESSAGE,
+					    icon);
 			}
 		} else {
 			Map currentMap = getMap(x, y);
