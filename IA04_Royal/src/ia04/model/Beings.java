@@ -55,13 +55,6 @@ public class Beings extends SimState {
 		addAgentsPiege();
 		addAgentsArme();
 		addAgentsHeal();
-		
-		livingContenders = NUM_CONTENDERS;
-		averageLifeOfContender = 0;
-		averageAttackOfContender = 0;
-		averageEnergyOfContender = 0;
-		averagePerceptionOfContender = 0;
-		averageFoodOfContender = 0;
 	}
 
 	private void initMat() {
