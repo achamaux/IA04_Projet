@@ -13,7 +13,7 @@ import sim.util.Bag;
 public class Contender extends Personnage {
 
 	private static final long serialVersionUID = 6893667159868881758L;
-	
+
 	public static int DIST_PERCEPTION = 5;
 	public static int DIST_PERCEPTION_JUNGLE = 2;
 	public static int MAX_DEP = 4;
@@ -23,13 +23,15 @@ public class Contender extends Personnage {
 	public static int MIN_ATTAQUE = 1;
 	public static int MAX_ATTAQUE = 5;
 	public static int ENERGIE_PAR_DEP = 1;
-	public static int ENERGIE_PAR_DEP_DESERT = 2*ENERGIE_PAR_DEP;
+	public static int ENERGIE_PAR_DEP_DESERT = 2 * ENERGIE_PAR_DEP;
 	public static int ENERGIE_PAR_ATT = 2;
 	public static int NOURRITURE_MAX = 4;
 	public static int ENERGIE_PAR_BOUFFE = 4;
-	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION+5;
+	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION + 5;
 	public static int VIE_CRITIQUE = 10;
-	
+
+	public boolean endMessageShown = false;
+
 	public int energieDeplacement = ENERGIE_PAR_DEP;
 	public int nourriture = 0;
 	public Arme arme;
@@ -44,7 +46,7 @@ public class Contender extends Personnage {
 		this.distancePerception = distancePerception;
 	}
 
-	public Contender(int x, int y, int vie, int attaque, int energie,int distancePerception, Beings b ) {
+	public Contender(int x, int y, int vie, int attaque, int energie, int distancePerception, Beings b) {
 		super(x, y, vie, attaque, energie, distancePerception);
 		beings = b;
 		Random rand = new Random();
@@ -54,7 +56,7 @@ public class Contender extends Personnage {
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = DIST_PERCEPTION;
-		
+
 		this.personalMaxVie = vie;
 		this.personalNativeAttaque = attaque;
 		arme = null;
@@ -66,78 +68,70 @@ public class Contender extends Personnage {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
-		
-		
-		if (beings.livingContenders<=1){
-			//on affiche le gagnant
-			ImageIcon icon = new ImageIcon("res/icon/victory.png");
-			JOptionPane.showMessageDialog(
-					BeingsWithUI.displayFrame, "On a un gagnant !",
-				    "Message de fin",
-				    JOptionPane.INFORMATION_MESSAGE,
-				    icon);
-		}
-		else {
-			Map currentMap = getMap(x,y);
-			if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
+
+		if (beings.livingContenders <= 1) {
+			if (!endMessageShown) {
+				endMessageShown = true;
+				// on affiche le gagnant
+				ImageIcon icon = new ImageIcon("res/icon/victory.png");
+				JOptionPane.showMessageDialog(BeingsWithUI.displayFrame, "On a un gagnant !", "Message de fin",
+						JOptionPane.INFORMATION_MESSAGE, icon);
+			}
+		} else {
+			Map currentMap = getMap(x, y);
+			if (vie <= 0 || currentMap.z.equals(Zone.EAU)) {
 				meurt(beings);
 				beings.livingContenders--;
-			}
-			else {
-				System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
+			} else {
+				System.out.println("\n\n Contender begins step : vie=" + vie + " ; energie =" + energie);
 				System.out.println("Currently at (" + x + "," + y + ")");
-				
-				/****************Je vérifie si pas tombé dans un piege*****************/
-				isTrapped(x,y);
-				
-				/****************Récupération des infos de la map*****************/
-				
+
+				/****************
+				 * Je vérifie si pas tombé dans un piege
+				 *****************/
+				isTrapped(x, y);
+
+				/****************
+				 * Récupération des infos de la map
+				 *****************/
+
 				getEffectFromMap(currentMap);
-				
-				/****************Recherche soin prioritaire*****************/
-				if(vie < VIE_CRITIQUE)
-				{
+
+				/**************** Recherche soin prioritaire *****************/
+				if (vie < VIE_CRITIQUE) {
 					Soin closestSoin = getClosestSoin();
-					if(closestSoin != null)
-					{
-						if((isAtRange(closestSoin,0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0){
+					if (closestSoin != null) {
+						if ((isAtRange(closestSoin, 0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0) {
 							seSoigner(closestSoin);
 							roundDone = true;
-						}
-						else
-						{
+						} else {
 							MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP, beings, energieDeplacement);
 							roundDone = true;
 						}
 					}
-	
+
 				}
-				/****************Traitement bouffe*****************/
-				if(energie < BOUFFE_CRITIQUE && !roundDone){
+				/**************** Traitement bouffe *****************/
+				if (energie < BOUFFE_CRITIQUE && !roundDone) {
 					System.out.println("Energy running low");
-					if(nourriture > 0){
+					if (nourriture > 0) {
 						eat();
 						roundDone = true;
-					}
-					else 
-					{
+					} else {
 						Nourriture food = getClosestFood();
-						if(food != null){
-							if((isAtRange(food,0) || isAtRange(food, 1)) && food.quantite > 0){
+						if (food != null) {
+							if ((isAtRange(food, 0) || isAtRange(food, 1)) && food.quantite > 0) {
 								takeFood(food);
 								roundDone = true;
-							}
-							else
-							{
+							} else {
 								MoveTowards(food.x, food.y, MAX_DEP, beings, energieDeplacement);
 								roundDone = true;
 							}
 						}
 					}
 				}
-				if(!roundDone)
-				{
-					/****************Traitement ennemi*****************/
+				if (!roundDone) {
+					/**************** Traitement ennemi *****************/
 					Personnage closestEnemy = getClosestEnemy(beings);
 					if (closestEnemy != null) {
 						if (!isAtRange(closestEnemy, 1)) {
@@ -151,23 +145,22 @@ public class Contender extends Personnage {
 								attack(closestEnemy, ENERGIE_PAR_ATT);
 						}
 					} else {
-						// pas d'ennemis trouv�, marche vers là où il y a des armes mieux 
-						//et si non, vers le centre
+						// pas d'ennemis trouv�, marche vers là où il y a
+						// des armes mieux
+						// et si non, vers le centre
 						Arme a = getClosestWeapon();
-						if (a != null){
-							if (a.x == x && a.y == y){
+						if (a != null) {
+							if (a.x == x && a.y == y) {
 								roundDone = takeWeapon(a);
-								if (!roundDone){
+								if (!roundDone) {
 									MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 									roundDone = true;
 								}
-							}
-							else{
+							} else {
 								MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
 								roundDone = true;
 							}
-						}
-						else{
+						} else {
 							MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 							roundDone = true;
 						}
@@ -186,13 +179,14 @@ public class Contender extends Personnage {
 				getTrapped(p);
 			}
 		}
-		
+
 	}
 
 	private void getTrapped(Piege p) {
 		// Je perds de la vie selon les dégats du piege
-		vie-=p.degat;
-		if (vie < 0) vie = 0;
+		vie -= p.degat;
+		if (vie < 0)
+			vie = 0;
 		p.meurt(beings);
 	}
 
@@ -203,7 +197,8 @@ public class Contender extends Personnage {
 			System.out.println("I'm getting better !");
 		}
 		energie--;
-		if (energie < 0) energie = 0;
+		if (energie < 0)
+			energie = 0;
 	}
 
 	private Soin getClosestSoin() {
@@ -230,7 +225,6 @@ public class Contender extends Personnage {
 		}
 		return null;
 	}
-
 
 	// se déplace dans la direction opposée à celle de l'enemi
 	public void escapeFrom(Personnage closestEnemy) {
@@ -272,22 +266,22 @@ public class Contender extends Personnage {
 		return null;
 	}
 
-	// affecte le contender 
-	void getEffectFromMap(Map m){
-		//Récupération de la map
+	// affecte le contender
+	void getEffectFromMap(Map m) {
+		// Récupération de la map
 		Zone z = m.z;
-		if(z.equals(Zone.EAU)){
+		if (z.equals(Zone.EAU)) {
 			meurt(beings);
 			beings.livingContenders--;
-			System.out.println("Je meurs car je suis dans l'eau, glou glou");}
-		else if (z.equals(Zone.JUNGLE))
+			System.out.println("Je meurs car je suis dans l'eau, glou glou");
+		} else if (z.equals(Zone.JUNGLE))
 			distancePerception = DIST_PERCEPTION_JUNGLE;
 		else if (z.equals(Zone.DESERT))
 			energieDeplacement = ENERGIE_PAR_DEP_DESERT;
 		else if (z.equals(Zone.PLAINE))
-			energieDeplacement = ENERGIE_PAR_DEP;		
+			energieDeplacement = ENERGIE_PAR_DEP;
 	}
-	
+
 	// trouve l'ennemi le plus proche, retourne null si aucun n'est visible
 	public Nourriture getClosestFood() {
 		// teste toutes les distances pour trouver le plus proche
@@ -327,14 +321,16 @@ public class Contender extends Personnage {
 			System.out.println("Food taken ! Food left :" + nourriture + " ; energy = " + energie);
 		}
 		energie--;
-		if (energie < 0) energie = 0;
+		if (energie < 0)
+			energie = 0;
 	}
 
-	public boolean takeWeapon(Arme weapon){
-		//Si weapon est meilleur que l'arme actuelle OU qu'on n'a pas d'arme actuelle
-		if((arme != null && arme.getpower() < weapon.getpower()) || (arme == null)){
-			//beings.yard.remove(weapon);
-			if(arme!=null) //on repose l'arme qu'on avait
+	public boolean takeWeapon(Arme weapon) {
+		// Si weapon est meilleur que l'arme actuelle OU qu'on n'a pas d'arme
+		// actuelle
+		if ((arme != null && arme.getpower() < weapon.getpower()) || (arme == null)) {
+			// beings.yard.remove(weapon);
+			if (arme != null) // on repose l'arme qu'on avait
 			{
 				attaque -= arme.getpower();
 				beings.addAgentArme(x, y, arme);
@@ -343,13 +339,14 @@ public class Contender extends Personnage {
 			arme = weapon;
 			attaque += arme.getpower();
 			weapon.isOk = false;
-			energie --;
-			if (energie < 0) energie = 0;
+			energie--;
+			if (energie < 0)
+				energie = 0;
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Arme getClosestWeapon() {
 		// teste toutes les distances pour trouver le plus proche
 		// (v�rifier si getNeighbors classe pas d�j� par proximit�)
@@ -364,9 +361,6 @@ public class Contender extends Personnage {
 		return null;
 	}
 
-
-	
-	
 	// trouve un ennemi � une distance range
 	@SuppressWarnings("deprecation")
 	public Arme findWeaponAtRange(int range) {
