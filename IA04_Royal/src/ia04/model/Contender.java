@@ -2,8 +2,12 @@ package ia04.model;
 
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
+import ia04.gui.*;
 import sim.util.Bag;
 
 public class Contender extends Personnage {
@@ -65,7 +69,13 @@ public class Contender extends Personnage {
 		
 		
 		if (beings.livingContenders<=1){
-			//il se passe rien
+			//on affiche le gagnant
+			ImageIcon icon = new ImageIcon("res/icon/victory.png");
+			JOptionPane.showMessageDialog(
+					BeingsWithUI.displayFrame, "On a un gagnant !",
+				    "Message de fin",
+				    JOptionPane.INFORMATION_MESSAGE,
+				    icon);
 		}
 		else {
 			Map currentMap = getMap(x,y);

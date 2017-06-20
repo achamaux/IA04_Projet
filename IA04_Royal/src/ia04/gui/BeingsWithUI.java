@@ -34,7 +34,7 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 public class BeingsWithUI extends GUIState {
 	public static int FRAME_SIZE = 900;
 	public Display2D display;
-	public JFrame displayFrame;
+	public static JFrame displayFrame;
 	Color eauColor = new Color(66, 124, 202);//new Color(66, 123, 202);
 	Color jungleColor = new Color(69, 99, 40);
 	Color plaineColor = new Color(122,166,71);
