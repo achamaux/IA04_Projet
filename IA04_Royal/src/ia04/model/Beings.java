@@ -29,11 +29,11 @@ public class Beings extends SimState {
 
 	//Variables pour les graphs
 	public int livingContenders = NUM_CONTENDERS;
-	public int averageLifeOfContender = 0;
-	public int averageAttackOfContender = 0;
-	public int averageEnergyOfContender = 0;
-	public int averagePerceptionOfContender = 0;
-	public int averageFoodOfContender = 0;
+	public float averageLifeOfContender = 0;
+	public float averageAttackOfContender = 0;
+	public float averageEnergyOfContender = 0;
+	public float averagePerceptionOfContender = 0;
+	public float averageFoodOfContender = 0;
 
 	static public int[][] mapMat = null;
 	private String mapFile = "res/map/map1";
@@ -289,23 +289,23 @@ public class Beings extends SimState {
 		return livingContenders;
 	}
 	
-	public int getAverageLifeOfContender() {
+	public float getAverageLifeOfContender() {
 		return averageLifeOfContender;
 	}
 	
-	public int getAverageAttackOfContender() {
+	public float getAverageAttackOfContender() {
 		return averageAttackOfContender;
 	}
 	
-	public int getAverageEnergyOfContender() {
+	public float getAverageEnergyOfContender() {
 		return averageEnergyOfContender;
 	}
 	
-	public int getAveragePerceptionOfContender() {
+	public float getAveragePerceptionOfContender() {
 		return averagePerceptionOfContender;
 	}
 	
-	public int getAverageFoodOfContender() {
+	public float getAverageFoodOfContender() {
 		return averageFoodOfContender;
 	}
 }

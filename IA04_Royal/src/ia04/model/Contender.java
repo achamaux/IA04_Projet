@@ -59,97 +59,106 @@ public class Contender extends Personnage {
 	public void step(SimState state) {
 		beings = (Beings) state;
 		boolean roundDone = false;
-		beings.averageLifeOfContender = numberOfPV()/beings.livingContenders;
-		beings.averageAttackOfContender = numberOfAttack()/beings.livingContenders;
-		beings.averageEnergyOfContender = numberOfEnergy()/beings.livingContenders;
-		beings.averagePerceptionOfContender = numberOfPerception()/beings.livingContenders;
-		beings.averageFoodOfContender = numberOfFood()/beings.livingContenders;
+		beings.averageLifeOfContender = numberOfPV()/ (float) beings.livingContenders;
+		beings.averageAttackOfContender = numberOfAttack()/ (float) beings.livingContenders;
+		beings.averageEnergyOfContender = numberOfEnergy()/ (float) beings.livingContenders;
+		beings.averagePerceptionOfContender = numberOfPerception()/ (float) beings.livingContenders;
+		beings.averageFoodOfContender = numberOfFood()/ (float) beings.livingContenders;
 		
-		Map currentMap = getMap(x,y);
-		if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
-			meurt(beings);
-			beings.livingContenders--;
+		if (beings.livingContenders<=1){
+			//il se passe rien
 		}
 		else {
-			System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
-			System.out.println("Currently at (" + x + "," + y + ")");
-			
-			/****************Je vérifie si pas tombé dans un piege*****************/
-			isTrapped(x,y);
-			
-			/****************Récupération des infos de la map*****************/
-			
-			getEffectFromMap(currentMap);
-			
-			/****************Recherche soin prioritaire*****************/
-			if(vie < VIE_CRITIQUE)
-			{
-				Soin closestSoin = getClosestSoin();
-				if(closestSoin != null)
-				{
-					if((isAtRange(closestSoin,0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0){
-						seSoigner(closestSoin);
-						roundDone = true;
-					}
-					else
-					{
-						MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP, beings, energieDeplacement);
-						roundDone = true;
-					}
-				}
-
+			Map currentMap = getMap(x,y);
+			if (vie <= 0 || currentMap.z.equals(Zone.EAU)){
+				meurt(beings);
+				beings.livingContenders--;
 			}
-			/****************Traitement bouffe*****************/
-			if(energie < BOUFFE_CRITIQUE && !roundDone){
-				System.out.println("Energy running low");
-				if(nourriture > 0){
-					eat();
-					roundDone = true;
-				}
-				else 
+			else {
+				System.out.println("\n\n Contender begins step : vie=" + vie +" ; energie =" + energie);
+				System.out.println("Currently at (" + x + "," + y + ")");
+				
+				/****************Je vérifie si pas tombé dans un piege*****************/
+				isTrapped(x,y);
+				
+				/****************Récupération des infos de la map*****************/
+				
+				getEffectFromMap(currentMap);
+				
+				/****************Recherche soin prioritaire*****************/
+				if(vie < VIE_CRITIQUE)
 				{
-					Nourriture food = getClosestFood();
-					if(food != null){
-						if((isAtRange(food,0) || isAtRange(food, 1)) && food.quantite > 0){
-							takeFood(food);
+					Soin closestSoin = getClosestSoin();
+					if(closestSoin != null)
+					{
+						if((isAtRange(closestSoin,0) || isAtRange(closestSoin, 1)) && closestSoin.quantite > 0){
+							seSoigner(closestSoin);
 							roundDone = true;
 						}
 						else
 						{
-							MoveTowards(food.x, food.y, MAX_DEP, beings, energieDeplacement);
+							MoveTowards(closestSoin.x, closestSoin.y, MAX_DEP, beings, energieDeplacement);
 							roundDone = true;
 						}
 					}
+	
 				}
-			}
-			if(!roundDone)
-			{
-				/****************Traitement ennemi*****************/
-				Personnage closestEnemy = getClosestEnemy(beings);
-				if (closestEnemy != null) {
-					if (!isAtRange(closestEnemy, 1)) {
-						MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, energieDeplacement);
+				/****************Traitement bouffe*****************/
+				if(energie < BOUFFE_CRITIQUE && !roundDone){
+					System.out.println("Energy running low");
+					if(nourriture > 0){
+						eat();
 						roundDone = true;
-					} else {
-						System.out.println("ennemi � port�e, je le tape ou je fuis");
-						if (closestEnemy.attaque * 2 > vie)
-							escapeFrom(closestEnemy);
-						else
-							attack(closestEnemy, ENERGIE_PAR_ATT);
 					}
-				} else {
-					// pas d'ennemis trouv�, marche vers là où il y a des armes mieux 
-					//et si non, vers le centre
-					Arme a = getClosestWeapon();
-					if (a != null){
-						if (a.x == x && a.y == y){
-							roundDone = takeWeapon(a);
-							if (!roundDone){
-								MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+					else 
+					{
+						Nourriture food = getClosestFood();
+						if(food != null){
+							if((isAtRange(food,0) || isAtRange(food, 1)) && food.quantite > 0){
+								takeFood(food);
 								roundDone = true;
 							}
+							else
+							{
+								MoveTowards(food.x, food.y, MAX_DEP, beings, energieDeplacement);
+								roundDone = true;
+							}
+						}
+					}
+				}
+				if(!roundDone)
+				{
+					/****************Traitement ennemi*****************/
+					Personnage closestEnemy = getClosestEnemy(beings);
+					if (closestEnemy != null) {
+						if (!isAtRange(closestEnemy, 1)) {
+							MoveTowards(closestEnemy.x, closestEnemy.y, 1, beings, energieDeplacement);
+							roundDone = true;
+						} else {
+							System.out.println("ennemi � port�e, je le tape ou je fuis");
+							if (closestEnemy.attaque * 2 > vie)
+								escapeFrom(closestEnemy);
+							else
+								attack(closestEnemy, ENERGIE_PAR_ATT);
+						}
+					} else {
+						// pas d'ennemis trouv�, marche vers là où il y a des armes mieux 
+						//et si non, vers le centre
+						Arme a = getClosestWeapon();
+						if (a != null){
+							if (a.x == x && a.y == y){
+								roundDone = takeWeapon(a);
+								if (!roundDone){
+									MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+									roundDone = true;
+								}
+								else{
+									MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
+									roundDone = true;
+								}
+							}
 							else{
-								MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
+								MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 								roundDone = true;
 							}
 						}
@@ -157,10 +166,6 @@ public class Contender extends Personnage {
 							MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 							roundDone = true;
 						}
-					}
-					else{
-						MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
-						roundDone = true;
 					}
 				}
 			}
