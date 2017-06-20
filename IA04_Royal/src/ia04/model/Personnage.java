@@ -1,5 +1,7 @@
 package ia04.model;
 
+import java.util.Random;
+
 import ia04.model.Map.Zone;
 import sim.engine.SimState;
 import sim.util.Bag;
@@ -34,6 +36,14 @@ public abstract class Personnage extends Element {
 	// se d�place de dist vers la case (x2,y2)
 	public void MoveTowards(int x2, int y2, int dist, Beings beings, int energieDeplacement) {
 		if (x == x2 && y == y2) {
+			Random rand = new Random();
+			int r = rand.nextInt(100);
+			if(r<33)
+				energie--;
+			if (energie <= 0) {
+				energie = 0;
+				vie--;
+			}
 			System.out.println("Not moving");
 		} else {
 			String log = "";

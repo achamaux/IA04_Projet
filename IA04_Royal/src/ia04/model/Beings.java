@@ -29,14 +29,14 @@ public class Beings extends SimState {
 
 	//Variables pour les graphs
 	public int livingContenders = NUM_CONTENDERS;
-	public float averageLifeOfContender = 0;
-	public float averageAttackOfContender = 0;
-	public float averageEnergyOfContender = 0;
-	public float averagePerceptionOfContender = 0;
-	public float averageFoodOfContender = 0;
-	public float averagePersMaxVie = 0;
-	public float averagePersNativeAttaque = 0;
-	public float averagePersMaxEnergie = 0;
+	public float averageLifeOfContender;
+	public float averageAttackOfContender;
+	public float averageEnergyOfContender;
+	public float averagePerceptionOfContender;
+	public float averageFoodOfContender;
+	public float averagePersMaxVie;
+	public float averagePersNativeAttaque;
+	public float averagePersMaxEnergie;
 	
 	DataTracker dataTracker;
 
