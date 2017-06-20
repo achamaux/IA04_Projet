@@ -23,7 +23,7 @@ public class Contender extends Personnage {
 	public static int ENERGIE_PAR_ATT = 2;
 	public static int NOURRITURE_MAX = 4;
 	public static int ENERGIE_PAR_BOUFFE = 4;
-	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION;
+	public static int BOUFFE_CRITIQUE = DIST_PERCEPTION+5;
 	public static int VIE_CRITIQUE = 10;
 	
 	public int energieDeplacement = ENERGIE_PAR_DEP;
