@@ -50,6 +50,10 @@ public class Contender extends Personnage {
 		this.attaque = attaque;
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = DIST_PERCEPTION;
+		
+		this.personalMaxVie = vie;
+		this.personalNativeAttaque = attaque;
+		this.personalMaxEnergie = energie;
 		arme = null;
 		Arme a = new Arme(x, y);
 		takeWeapon(a);
@@ -181,7 +185,7 @@ public class Contender extends Personnage {
 	}
 
 	private void seSoigner(Soin soin) {
-		while (soin.quantite > 0 && vie < MAX_VIE) {
+		while (soin.quantite > 0 && vie < personalMaxVie) {
 			vie++;
 			soin.quantite--;
 			System.out.println("I'm getting better !");
