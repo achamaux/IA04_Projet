@@ -51,7 +51,7 @@ public class Contender extends Personnage {
 		this.energie = MAX_ENERGIE;
 		this.distancePerception = DIST_PERCEPTION;
 		arme = null;
-		Arme a = new Arme(x, y);
+		Arme a = new Arme(x, y, true);
 		takeWeapon(a);
 	}
 
@@ -152,13 +152,9 @@ public class Contender extends Personnage {
 									MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
 									roundDone = true;
 								}
-								else{
-									MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
-									roundDone = true;
-								}
 							}
 							else{
-								MoveTowards(Beings.GRID_SIZE, Beings.GRID_SIZE / 2, 1, beings, energieDeplacement);
+								MoveTowards(a.x, a.y, MAX_DEP, beings, energieDeplacement);
 								roundDone = true;
 							}
 						}
@@ -328,7 +324,7 @@ public class Contender extends Personnage {
 	public boolean takeWeapon(Arme weapon){
 		//Si weapon est meilleur que l'arme actuelle OU qu'on n'a pas d'arme actuelle
 		if((arme != null && arme.getpower() < weapon.getpower()) || (arme == null)){
-			beings.yard.remove(weapon);
+			//beings.yard.remove(weapon);
 			if(arme!=null) //on repose l'arme qu'on avait
 			{
 				attaque -= arme.getpower();
@@ -337,7 +333,7 @@ public class Contender extends Personnage {
 			}
 			arme = weapon;
 			attaque += arme.getpower();
-			arme.meurt(beings);
+			weapon.isOk = false;
 			energie --;
 			if (energie < 0) energie = 0;
 			return true;
